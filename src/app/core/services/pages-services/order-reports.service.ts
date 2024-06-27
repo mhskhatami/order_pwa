@@ -33,7 +33,7 @@ export class OrderReportsService {
         data.OrderDate = this.getFormattedDate(order.OrderDate);
 
         let relatedPerson = people.find(x => x.PersonId == order.PersonId);
-        data.PersonName = relatedPerson?.FirstName! + relatedPerson?.LastName!;
+        data.PersonName = relatedPerson?.FirstName! + ' ' + relatedPerson?.LastName!;
 
         const relatedOrderDetails = orderDetails.filter(detail => detail.OrderId === order.OrderId)
         data.OrderSum = rialCurrencyPipe.transform(relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0));
