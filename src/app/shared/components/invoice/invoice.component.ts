@@ -10,6 +10,7 @@ import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.se
 import { PromotionService } from 'src/app/core/services/promotion.service';
 import { Setting } from 'src/app/core/models/bazara/bazara-DTOs/setting';
 import { PromotionDetailOtherFields } from 'src/app/core/models/bazara/bazara-DTOs/promotion-detail';
+import { PromotionOtherFields } from 'src/app/core/models/bazara/bazara-DTOs/promotion';
 
 export interface InvoiceSummary {
   TotalInvoiceAmount: number; // مبلغ کل فاکتور
@@ -111,12 +112,7 @@ export class InvoiceComponent implements OnInit {
     this.settings = await this.indexedDbService.getAllData<Setting>("Setting");
     const taxAndDutyActive = this.settings.find(s => s.SettingCode === 14008)?.Value === "1.00000000";
     this.taxPercent = taxAndDutyActive ? Number(this.settings.find(s => s.SettingCode === 14001)?.Value) / 100 : 0;
-    console.log("this.taxPercent = ", this.taxPercent);
-
-
     this.chargePercent = taxAndDutyActive ? Number(this.settings.find(s => s.SettingCode === 14000)?.Value) / 100 : 0;
-
-    console.log("this.chargePercent = ", this.chargePercent);
   }
 
   fetchPeople() {
@@ -352,48 +348,60 @@ export class InvoiceComponent implements OnInit {
     this.invoiceItems.splice(index, 1);
     this.calculateTotal();
     this.calculateInvoiceSummary();
+    this.applyPromotionInvoice();
   }
 
   async applyPromotionInvoice(): Promise<void> {
-    // اعمال طرح تشویقی
-    const detailOtherFields = await this.promotionService.getEligiblePromotion(this.invoiceSummary);
-    if (detailOtherFields !== null) {
-      this.calculatePromotion(detailOtherFields);
+    // Get all eligible promotions and their details
+    const eligiblePromotions = await this.promotionService.getEligiblePromotions(this.invoiceSummary);
+
+    for (const { promotion, details } of eligiblePromotions) {
+        const promotionOtherFields: PromotionOtherFields = JSON.parse(promotion.OtherFields);
+
+        // Apply each eligible detail for this promotion
+        for (const detailOtherFields of details) {
+            await this.applyPromotionDetail( detailOtherFields);
+        }
+
+        // If this promotion doesn't aggregate with others, break after applying its details
+        if (promotionOtherFields.AggregateWithOther !== 1) {
+            break;
+        }
+
+        // Recalculate totals and summary after applying each promotion
+        this.calculateTotal();
+        this.calculateInvoiceSummary();
     }
+
+    // Final recalculation after all promotions have been applied
     this.calculateTotal();
     this.calculateInvoiceSummary();
-  }
-  
+}
 
-  private calculatePromotion(detailOtherFields: PromotionDetailOtherFields): void {
-    switch (detailOtherFields.HowToPromotion) {
+private async applyPromotionDetail(detailOtherFields: PromotionDetailOtherFields): Promise<void> {
+  switch (detailOtherFields.HowToPromotion) {
       case 1: // تخفیف به مبلغ ثابت (Fixed amount discount)
-        this.applyFixedAmountDiscount(detailOtherFields.MeghdarPromotion);
-        break;
+          this.applyFixedAmountDiscount(detailOtherFields.MeghdarPromotion);
+          break;
       case 2: // تخفیف درصدی (Percentage discount)
-        this.applyPercentageDiscount(detailOtherFields.MeghdarPromotion);
-        break;
+          this.applyPercentageDiscount(detailOtherFields.MeghdarPromotion);
+          break;
       case 3: // تخفیف از سطوح تخفیف (Discount from discount levels)
-        this.applyDiscountLevel(detailOtherFields.MeghdarPromotion);
-        break;
+          this.applyDiscountLevel(detailOtherFields.MeghdarPromotion);
+          break;
       case 4: // اشانتیون از همان کالا (Free item from the same product)
-        this.applyFreeItemSameProduct(detailOtherFields.Meghdar);
-        break;
+          this.applyFreeItemSameProduct(detailOtherFields.Meghdar);
+          break;
       case 5: // اشانتیون از کالاهای دیگر (Free item from other products)
-        this.applyFreeItemOtherProduct(detailOtherFields.CodeGood, detailOtherFields.Meghdar);
-        break;
+          await this.applyFreeItemOtherProduct(detailOtherFields.CodeGood, detailOtherFields.Meghdar);
+          break;
       default:
-        console.warn('Unknown promotion type');
-    }
-    
-    // After applying the promotion, recalculate totals
-    this.calculateTotal();
-    this.calculateInvoiceSummary();
+          console.warn('Unknown promotion type');
   }
-
-
+}
+  
   private applyFixedAmountDiscount(amount: number): void {
-    this.discountValue += amount;
+    this.discountValue = amount;
   }
   
   private applyPercentageDiscount(percentage: number): void {
@@ -423,9 +431,12 @@ export class InvoiceComponent implements OnInit {
       const freeItem: OrderDetail = { ...lastItem };
       freeItem.Count1 = quantity;
       freeItem.Price = 0;
+      freeItem.UnitPrice = 0;
       freeItem.Discount = 0;
       freeItem.Gift = 1; // Mark as a gift
       this.invoiceItems.push(freeItem);
+      console.log("push");
+      
     }
   }
   
@@ -506,10 +517,7 @@ export class InvoiceComponent implements OnInit {
     } else {
       this.discountValue += this.discountAmount;
     }
-
-    console.log("asdasd" + this.discountValue);
     
-
     const discountedSubtotal = this.subtotal - this.discountValue;
     this.totalTax = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.TaxPercent ), 0);
     this.totalCharge = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.ChargePercent ), 0);

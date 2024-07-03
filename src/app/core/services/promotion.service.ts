@@ -3,6 +3,7 @@ import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.se
 import { Promotion, PromotionOtherFields } from 'src/app/core/models/bazara/bazara-DTOs/promotion';
 import { InvoiceSummary } from 'src/app/core/models/bazara/bazara-DTOs/invoice-summary';
 import { PromotionDetail, PromotionDetailOtherFields } from '../models/bazara/bazara-DTOs/promotion-detail';
+import * as moment from 'jalali-moment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,21 +21,41 @@ export class PromotionService {
     const now = new Date();
     return this.promotions.filter(promo => {
       const otherFields: PromotionOtherFields = JSON.parse(promo.OtherFields);
-      return otherFields.DateStart <= now.toISOString() && otherFields.DateEnd >= now.toISOString();
+      return this.transformDate(otherFields.DateStart) <= now.toISOString() && this.transformDate(otherFields.DateEnd) >= now.toISOString();
     });
   }
 
-  async getEligiblePromotion(invoiceSummary: InvoiceSummary): Promise<PromotionDetailOtherFields | null> {
+  transformDate(value: string): string {
+    // Convert the Persian date string to a moment object
+    let m = moment(value, 'jYYYY/jM/jD');
+    m.locale('en');
+    let gregorianDateISO = m.toISOString();
+    return gregorianDateISO;
+  }
+
+  async getEligiblePromotions(invoiceSummary: InvoiceSummary): Promise<{promotion: Promotion, details: PromotionDetailOtherFields[]}[]> {
+    const eligiblePromotions: {promotion: Promotion, details: PromotionDetailOtherFields[]}[] = [];
+
+    console.log(this.promotions);
+    
+
     for (const promo of this.promotions) {
         const promotionDetails = await this.getPromotionDetails(promo.PromotionId);
+        const eligibleDetails: PromotionDetailOtherFields[] = [];
+
         for (const detail of promotionDetails) {
             const detailOtherFields: PromotionDetailOtherFields = JSON.parse(detail.OtherFields);
             if (this.isEligibleForPromotion(invoiceSummary, promo, detailOtherFields)) {
-                return detailOtherFields;
+                eligibleDetails.push(detailOtherFields);
             }
         }
+
+        if (eligibleDetails.length > 0) {
+            eligiblePromotions.push({promotion: promo, details: eligibleDetails});
+        }
     }
-    return null; // Return null if no eligible promotions are found
+
+    return eligiblePromotions;
 }
 
 
