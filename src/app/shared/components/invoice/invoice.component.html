@@ -4,7 +4,7 @@
   <form [formGroup]="invoiceForm" class="invoice-form">
     <mat-form-field class="full-width">
       <mat-label>مشتری</mat-label>
-      <mat-select formControlName="customer" (selectionChange)="updateProductDetails()">
+      <mat-select formControlName="customer" (selectionChange)="updatePerson()">
         <mat-option *ngFor="let person of people" [value]="person">{{ person.FirstName }} {{ person.LastName }}</mat-option>
       </mat-select>
     </mat-form-field>

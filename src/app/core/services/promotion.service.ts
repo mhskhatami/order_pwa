@@ -4,69 +4,162 @@ import { Promotion, PromotionOtherFields } from 'src/app/core/models/bazara/baza
 import { InvoiceSummary } from 'src/app/core/models/bazara/bazara-DTOs/invoice-summary';
 import { PromotionDetail, PromotionDetailOtherFields } from '../models/bazara/bazara-DTOs/promotion-detail';
 import * as moment from 'jalali-moment';
+import { OtherFields, PromotionEntity } from '../models/bazara/bazara-DTOs/promotion-entity';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromotionService {
 
-  promotions!: Promotion[];
+  promotions: Promotion[] = [];
 
   constructor(private indexedDbService: IndexedDbService) {
-    this.getActivePromotions();
+    this.getActivePromotions().catch(console.error);
   }
 
   async getActivePromotions(): Promise<Promotion[]> {
-   this.promotions = await this.indexedDbService.getAllData<Promotion>("Promotion");
-    const now = new Date();
-    return this.promotions.filter(promo => {
-      const otherFields: PromotionOtherFields = JSON.parse(promo.OtherFields);
-      return this.transformDate(otherFields.DateStart) <= now.toISOString() && this.transformDate(otherFields.DateEnd) >= now.toISOString();
-    });
+    try {
+      this.promotions = await this.indexedDbService.getAllData<Promotion>("Promotion");
+      const nowISO = new Date().toISOString();
+      return this.promotions.filter(promo => {
+        const otherFields: PromotionOtherFields = JSON.parse(promo.OtherFields);
+        return this.transformDate(otherFields.DateStart) <= nowISO && this.transformDate(otherFields.DateEnd) >= nowISO && !promo.Deleted;
+      });
+    } catch (error) {
+      console.error("Error fetching active promotions:", error);
+      return [];
+    }
   }
 
   transformDate(value: string): string {
-    // Convert the Persian date string to a moment object
-    let m = moment(value, 'jYYYY/jM/jD');
-    m.locale('en');
-    let gregorianDateISO = m.toISOString();
-    return gregorianDateISO;
+    try {
+      const m = moment(value, 'jYYYY/jM/jD').locale('en');
+      return m.toISOString();
+    } catch (error) {
+      console.error("Error transforming date:", error);
+      return '';
+    }
   }
 
-  async getEligiblePromotions(invoiceSummary: InvoiceSummary): Promise<{promotion: Promotion, details: PromotionDetailOtherFields[]}[]> {
+  async getEligiblePromotions(
+    invoiceSummary: InvoiceSummary, 
+    personCode: number, 
+    visitorCode: number, 
+    productCodes: number[],
+    serviceCodes: number[],
+    anbarCodes: number[]
+  ): Promise<{promotion: Promotion, details: PromotionDetailOtherFields[]}[]> {
     const eligiblePromotions: {promotion: Promotion, details: PromotionDetailOtherFields[]}[] = [];
 
-    console.log(this.promotions);
-    
-
     for (const promo of this.promotions) {
-        const promotionDetails = await this.getPromotionDetails(promo.PromotionId);
-        const eligibleDetails: PromotionDetailOtherFields[] = [];
+      const promotionOtherFields: PromotionOtherFields = JSON.parse(promo.OtherFields);
+      if (!(await this.isEntityEligibleForPromotion(promo, promotionOtherFields, personCode, visitorCode, productCodes, serviceCodes, anbarCodes))) {
+        continue;
+      }
 
-        for (const detail of promotionDetails) {
-            const detailOtherFields: PromotionDetailOtherFields = JSON.parse(detail.OtherFields);
-            if (this.isEligibleForPromotion(invoiceSummary, promo, detailOtherFields)) {
-                eligibleDetails.push(detailOtherFields);
-            }
-        }
-
-        if (eligibleDetails.length > 0) {
-            eligiblePromotions.push({promotion: promo, details: eligibleDetails});
-        }
+      const promotionDetails = await this.getPromotionDetails(promo.PromotionId);
+      const eligibleDetails = promotionDetails
+        .map(detail => JSON.parse(detail.OtherFields))
+        .filter(detailOtherFields => this.isEligibleForPromotion(invoiceSummary, promo, detailOtherFields));
+      
+      if (eligibleDetails.length > 0) {
+        eligiblePromotions.push({ promotion: promo, details: eligibleDetails });
+      }
     }
 
     return eligiblePromotions;
-}
+  }
 
+  private async isEntityEligibleForPromotion(
+    promo: Promotion,
+    promotionOtherFields: PromotionOtherFields, 
+    personCode: number, 
+    visitorCode: number, 
+    productCodes: number[],
+    serviceCodes: number[],
+    anbarCodes: number[]
+  ): Promise<boolean> {
 
+    console.log(promotionOtherFields.IsAllCustomer);
+    console.log(await this.isCustomerEligibleForPromotion(promo.PromotionId, personCode));
+
+    console.log((
+      (promotionOtherFields.IsAllCustomer || await this.isCustomerEligibleForPromotion(promo.PromotionId, personCode)) &&
+      (promotionOtherFields.IsAllVisitor || await this.isVisitorEligibleForPromotion(promo.PromotionId, visitorCode)) &&
+      (promotionOtherFields.IsAllGood || await this.areProductsEligibleForPromotion(promo.PromotionId, productCodes)) &&
+      (promotionOtherFields.IsAllService || await this.areServicesEligibleForPromotion(promo.PromotionId, serviceCodes)) &&
+      (promotionOtherFields.IsAllAnbar || await this.areAnbarsEligibleForPromotion(promo.PromotionId, anbarCodes))
+    ));
+    
+    
+    
+
+    return (
+      (promotionOtherFields.IsAllCustomer || await this.isCustomerEligibleForPromotion(promo.PromotionId, personCode)) &&
+      (promotionOtherFields.IsAllVisitor || await this.isVisitorEligibleForPromotion(promo.PromotionId, visitorCode)) &&
+      (promotionOtherFields.IsAllGood || await this.areProductsEligibleForPromotion(promo.PromotionId, productCodes)) &&
+      (promotionOtherFields.IsAllService || await this.areServicesEligibleForPromotion(promo.PromotionId, serviceCodes)) &&
+      (promotionOtherFields.IsAllAnbar || await this.areAnbarsEligibleForPromotion(promo.PromotionId, anbarCodes))
+    );
+  }
+
+  private async areProductsEligibleForPromotion(promotionId: number, productCodes: number[]): Promise<boolean> {
+    const promotionEntities = await this.indexedDbService.getAllData<PromotionEntity>("PromotionEntity");
+    return productCodes.some(productCode => 
+      promotionEntities.some(entity => {
+        const otherFields: OtherFields = JSON.parse(entity.OtherFields);
+        return entity.PromotionId === promotionId && otherFields.EntityType === 3 && otherFields.CodeEntity === productCode;
+      })
+    );
+  }
+  
+  private async areServicesEligibleForPromotion(promotionId: number, serviceCodes: number[]): Promise<boolean> {
+    const promotionEntities = await this.indexedDbService.getAllData<PromotionEntity>("PromotionEntity");
+    return serviceCodes.some(serviceCode => 
+      promotionEntities.some(entity => {
+        const otherFields: OtherFields = JSON.parse(entity.OtherFields);
+        return entity.PromotionId === promotionId && otherFields.EntityType === 4 && otherFields.CodeEntity === serviceCode;
+      })
+    );
+  }
+  
+  private async areAnbarsEligibleForPromotion(promotionId: number, anbarCodes: number[]): Promise<boolean> {
+    const promotionEntities = await this.indexedDbService.getAllData<PromotionEntity>("PromotionEntity");
+    return anbarCodes.some(anbarCode => 
+      promotionEntities.some(entity => {
+        const otherFields: OtherFields = JSON.parse(entity.OtherFields);
+        return entity.PromotionId === promotionId && otherFields.EntityType === 5 && otherFields.CodeEntity === anbarCode;
+      })
+    );
+  }
+  
+  private async isCustomerEligibleForPromotion(promotionId: number, personCode: number): Promise<boolean> {
+    const promotionEntities = await this.indexedDbService.getAllData<PromotionEntity>("PromotionEntity");
+    console.log(promotionEntities);
+    
+    return promotionEntities.some(entity => {
+      const otherFields: OtherFields = JSON.parse(entity.OtherFields);
+      console.log(otherFields);
+      console
+      
+      return entity.PromotionId == promotionId && otherFields.EntityType == 2 && otherFields.CodeEntity == personCode;
+    });
+  }
+
+  private async isVisitorEligibleForPromotion(promotionId: number, visitorCode: number): Promise<boolean> {
+    const promotionEntities = await this.indexedDbService.getAllData<PromotionEntity>("PromotionEntity");
+    return promotionEntities.some(entity => {
+      const otherFields: OtherFields = JSON.parse(entity.OtherFields);
+      return entity.PromotionId === promotionId && otherFields.EntityType === 1 && otherFields.CodeEntity === visitorCode;
+    });
+  }
+  
   private async getPromotionDetails(promotionId: number): Promise<PromotionDetail[]> {
     const allDetails = await this.indexedDbService.getAllData<PromotionDetail>("PromotionDetail");
-
     return allDetails.filter(detail => detail.PromotionId === promotionId);
   }
 
   private isEligibleForPromotion(invoiceSummary: InvoiceSummary, promotion: Promotion, detailOtherFields: PromotionDetailOtherFields): boolean {
-    
     const promotionOtherFields: PromotionOtherFields = JSON.parse(promotion.OtherFields);
 
     switch (promotionOtherFields.AccordingTo) {

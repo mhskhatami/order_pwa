@@ -37,6 +37,7 @@ export class InvoiceComponent implements OnInit {
 
   invoiceForm: FormGroup;
   order!: Order;
+  person!:Person;
   people: Person[] = [];
   products: Product[] = [];
   settings: Setting[] = [];
@@ -152,11 +153,15 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
+  updatePerson(): void {
+    this.person = this.invoiceForm.get('customer')?.value;
+    this.applyPromotionInvoice();
+  }
+
   onProductDetailChange(): void {
     this.selectedProductDetail = this.invoiceForm.get('productDetail')?.value;
     if (this.selectedProductDetail) {
       this.selectedProductProperties = this.parseProperties(this.selectedProductDetail.Properties);
-      console.log(this.selectedProductProperties);
 
       if (this.selectedProductProperties.length > 0) {
         this.invoiceForm.get('productProperty')?.setValue(this.selectedProductProperties);
@@ -222,6 +227,8 @@ export class InvoiceComponent implements OnInit {
     const iranTimeOffset = 3.5;
     const localTime = new Date(now.getTime() + iranTimeOffset * 60 * 60 * 1000);
     const createDate = localTime.toISOString().replace('Z', '');
+
+    this.discountValue = 0;
 
     this.discountAmount = this.invoiceForm.get('discount')?.value;
     this.discountType = this.invoiceForm.get('discountType')?.value;
@@ -306,8 +313,6 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-
-
   private getDefaultDiscountLevel(selectedProductDetail: ProductDetail, discount: number) {
     switch (selectedProductDetail.DefaultDiscountLevel) {
       case 1:
@@ -352,31 +357,56 @@ export class InvoiceComponent implements OnInit {
   }
 
   async applyPromotionInvoice(): Promise<void> {
+    console.log("again");
+    
+    const productCodes = this.invoiceItems.map(item => {
+      const productDetail = this.productDetails.find(pd => pd.ProductDetailId === item.ProductDetailId);
+      return productDetail ? productDetail.ProductCode : 0;
+    });
+  
+    const visitorCode = Number(this.visitorId);
+    
+    // Assuming you don't have service codes and anbar codes in your current implementation
+    const serviceCodes: number[] = [];
+    const anbarCodes: number[] = [];
+  
     // Get all eligible promotions and their details
-    const eligiblePromotions = await this.promotionService.getEligiblePromotions(this.invoiceSummary);
+    const eligiblePromotions = await this.promotionService.getEligiblePromotions(
+      this.invoiceSummary,
+      this.person.PersonCode,
+      visitorCode,
+      productCodes,
+      serviceCodes,
+      anbarCodes
+    );
 
+    console.log(eligiblePromotions);
+    
     for (const { promotion, details } of eligiblePromotions) {
-        const promotionOtherFields: PromotionOtherFields = JSON.parse(promotion.OtherFields);
-
-        // Apply each eligible detail for this promotion
-        for (const detailOtherFields of details) {
-            await this.applyPromotionDetail( detailOtherFields);
-        }
-
-        // If this promotion doesn't aggregate with others, break after applying its details
-        if (promotionOtherFields.AggregateWithOther !== 1) {
-            break;
-        }
-
-        // Recalculate totals and summary after applying each promotion
-        this.calculateTotal();
-        this.calculateInvoiceSummary();
+      console.log(eligiblePromotions);
+      
+      const promotionOtherFields: PromotionOtherFields = JSON.parse(promotion.OtherFields);
+  
+      // Apply each eligible detail for this promotion
+      for (const detailOtherFields of details) {
+        await this.applyPromotionDetail(detailOtherFields);
+      }
+  
+      // If this promotion doesn't aggregate with others, break after applying its details
+      if (promotionOtherFields.AggregateWithOther !== 1) {
+        break;
+      }
+  
+      // Recalculate totals and summary after applying each promotion
+      this.calculateTotal();
+      this.calculateInvoiceSummary();
     }
-
+  
     // Final recalculation after all promotions have been applied
     this.calculateTotal();
     this.calculateInvoiceSummary();
-}
+  }
+  
 
 private async applyPromotionDetail(detailOtherFields: PromotionDetailOtherFields): Promise<void> {
   switch (detailOtherFields.HowToPromotion) {
@@ -402,6 +432,8 @@ private async applyPromotionDetail(detailOtherFields: PromotionDetailOtherFields
   
   private applyFixedAmountDiscount(amount: number): void {
     this.discountValue = amount;
+    console.log("this.discountValue" + this.discountValue);
+    
   }
   
   private applyPercentageDiscount(percentage: number): void {
@@ -435,7 +467,6 @@ private async applyPromotionDetail(detailOtherFields: PromotionDetailOtherFields
       freeItem.Discount = 0;
       freeItem.Gift = 1; // Mark as a gift
       this.invoiceItems.push(freeItem);
-      console.log("push");
       
     }
   }
@@ -517,7 +548,7 @@ private async applyPromotionDetail(detailOtherFields: PromotionDetailOtherFields
     } else {
       this.discountValue += this.discountAmount;
     }
-    
+
     const discountedSubtotal = this.subtotal - this.discountValue;
     this.totalTax = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.TaxPercent ), 0);
     this.totalCharge = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.ChargePercent ), 0);
