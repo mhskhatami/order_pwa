@@ -18,9 +18,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 
 const MaterialComponents = [
   MatSnackBarModule,
@@ -44,7 +45,8 @@ const MaterialComponents = [
   MatDialogTitle,
   MatDialogContent,
   MatProgressBarModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatRadioModule
 ];
 
 @NgModule({

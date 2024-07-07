@@ -22,9 +22,7 @@
                 {{ orderReports.OrderSum }}
             </p>
         </mat-card-content>
-        
-        <div class="btn">
-            <button mat-raised-button [routerLink]="['/order-detail', orderReports.OrderId]">جزئیات فاکتور</button>            
-        </div>
+
+        <button mat-raised-button [routerLink]="['/order-detail', orderReports.OrderId]">جزئیات فاکتور</button>
     </mat-card>
 </div>

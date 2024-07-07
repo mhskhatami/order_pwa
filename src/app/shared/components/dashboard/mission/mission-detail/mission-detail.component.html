@@ -1,0 +1,89 @@
+<div class="container">
+    <div class="upper-section">
+        <!-- <mat-select [(value)]="missionSelected"
+            style="padding: 5px; border-radius: 5px; width: 30%; background-color: white;">
+            <mat-option>None</mat-option>
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+        </mat-select> -->
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <span> {{ selectedMission.MainDescription }} </span>
+
+            <!-- <mat-progress-spinner class="example-margin" [mode]="mode" [value]="value"> ـعداد دستور کار</mat-progress-spinner> border-left: none; border-right: none -->
+            <div
+                style="display: flex; justify-content: center;border: 4px solid gray; border-top: 2px solid; border-radius: 70%;border-bottom: none; height: 70px; width: 70px; padding: 35px;">
+                {{ selectedMission.MissionCount }} دستور کار</div>
+            <div style="display: flex; margin: 7px;">
+                <div style="display: flex; align-items: center; margin: 7px;">
+                    <div style="border-radius:30%; height: 10px; width: 20px; background-color: white; margin: 5px;">
+                    </div>
+                    موفق:{{selectedMission.SuccessMissionCount}}
+                </div>
+                <div style="display: flex; align-items: center; margin: 7px;">
+                    <div style="border-radius:30%; height: 10px; width: 20px; background-color: yellow; margin: 5px;">
+                    </div>ناموفق:{{selectedMission.UnsuccessMissionCount}}
+                </div>
+                <div style="display: flex; align-items: center; margin: 7px;">
+                    <div style="border-radius:30%; height: 10px; width: 20px; background-color: green; margin: 5px;">
+                    </div>انجام نشده:{{selectedMission.MissionCount! - selectedMission.MissionDone!}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="middle-section">
+        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+            <p>{{ selectedMission.DeliveryCount }}</p>
+            <mat-icon fontIcon="outbox"></mat-icon>
+        </div>
+
+        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+            <p>{{ selectedMission.BardashtKalaCount }}</p>
+            <mat-icon fontIcon="list_alt"></mat-icon>
+        </div>
+
+        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+            <p>{{ selectedMission.VosoolMotalebatCount }}</p>
+            <mat-icon fontIcon="attach_money"></mat-icon>
+        </div>
+
+        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+            <p>{{ selectedMission.TakingOrderCount }}</p>
+            <mat-icon fontIcon="move_to_inbox"></mat-icon>
+        </div>
+    </div>
+
+    <div class="bottom-section" style="width: 100%; justify-content: space-around; flex-wrap: wrap;">
+        <div *ngFor="let detail of selectedMission.MissionDetails;let i = index" style="width: 30%;">
+            <div style="display: flex; width: 100%; background-color: white;">
+                <span style="background-color: gray; height: 20px; width: 20px; vertical-align: center; ">{{ i+1 }}</span>
+                <div>
+                    <p>{{ detail.PersonName }}</p>
+                    <p> {{ detail.Title }} </p>
+                    <div>
+                        <div>
+                            <div *ngIf="detail.Type === 1">
+                                <mat-icon fontIcon="outbox"></mat-icon><span>دریافت سفارش</span>
+                            </div>
+                            <div *ngIf="detail.Type === 2">
+                                <mat-icon fontIcon="list_alt"></mat-icon><span>تحویل کالا</span>
+                            </div>
+                            <div *ngIf="detail.Type === 3">
+                                <mat-icon fontIcon="attach_money"></mat-icon><span>وصول مطالبات</span>
+                            </div>
+                            <div *ngIf="detail.Type === 4">
+                                <mat-icon fontIcon="move_to_inbox"></mat-icon><span>برداشت کالا</span>
+                            </div>
+                        </div>
+                        <div>
+                            وضعیت: {{ detail.Status }}
+                        </div>
+                    </div>
+                </div>
+                <button (click)="openDialog()">تعیین وضعیت</button>
+            </div>
+        </div>
+    </div>
+</div>

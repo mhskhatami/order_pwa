@@ -1,1 +1,14 @@
-<app-mission-card></app-mission-card>
+<div *ngIf="isLoading; else isLoading" class="container">
+    <div *ngIf="filteredData.length > 0; else emptyData" style="width: 100%; display: flex;">
+        <app-mission-card *ngFor="let data of filteredData" [mission]="data"></app-mission-card>
+    </div>
+
+    <ng-template #emptyData>
+        ماموریتی برای شما در نظر گرفته نشده است.
+    </ng-template>
+</div>
+
+<ng-template #isLoading>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+    <p>در حال بارگزاری لیست ماموریت های شما ...</p>
+</ng-template>

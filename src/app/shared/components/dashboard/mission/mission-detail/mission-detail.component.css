@@ -1,0 +1,28 @@
+.container {
+    height: 100%;
+    background: linear-gradient(#E2E4E6 0%,#E2E4E6 40%,#fff 30%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upper-section {
+    height: 33%;
+    padding: 15px;
+}
+
+.middle-section {
+    display: flex;
+    justify-content: center;
+    width: 95%;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 5px 5px 5px rgb(205, 202, 202);
+}
+
+.bottom-section {
+    width: 100%;
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+}

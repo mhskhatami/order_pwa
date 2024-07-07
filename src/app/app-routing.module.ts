@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { LoginComponent } from './shared/components/login/login.component';
 import { PeopleListComponent } from './shared/components/people-list/people-list.component';
 import { DashboardComponent } from './shared/components/dashboard/dashboard.component';
@@ -17,6 +18,8 @@ import { OrderComponent } from './shared/components/order/order.component';
 import { ReportsComponent } from './shared/components/reports/reports.component';
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
+import { MissionDetailComponent } from './shared/components/dashboard/mission/mission-detail/mission-detail.component';
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -36,10 +39,8 @@ const routes: Routes = [
   { path: 'product-categories', component: ProductCategoriesComponent, canActivate: [authGuard] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
   { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
-  { path: '**', redirectTo: 'dashboard' },
-
-  
-  // other routes...
+  { path: 'mission-detail', component: MissionDetailComponent, canActivate: [authGuard] },
+  { path: '**', redirectTo: 'dashboard' }
 ];
   
 @NgModule({

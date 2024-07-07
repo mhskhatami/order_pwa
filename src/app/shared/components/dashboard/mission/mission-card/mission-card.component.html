@@ -1,16 +1,30 @@
-<div class="container" *ngIf="!isLoading; else loading">
-    <mat-card class="card-container" *ngFor="let mission of missions">
-      <mat-card-header class="card-header">
-        <mat-card-title> کد رهگیری ماموریت :  {{ mission.MissionId }}</mat-card-title>
-        <mat-card-subtitle> تاریخ : {{ mission.Date | persianDate }}   </mat-card-subtitle>
-        <mat-card-subtitle> وضعیت :  {{ mission.MissionCode }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-actions>
-        <button mat-button>جزئیات</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <ng-template #loading>
-    <p>در حال بارگذاری...</p>
-  </ng-template>
-  
+<div class="container">
+  <mat-card class="card-container">
+    <mat-card-header class="card-header">
+      <mat-card-title> کد رهگیری ماموریت : {{ mission.MissionId }}</mat-card-title>
+      <mat-card-subtitle> تاریخ : {{ mission.MissionDate! | persianDate }} </mat-card-subtitle>
+      <!-- <mat-card-subtitle> وضعیت :  {{ missionStatus(mission.mi) }}</mat-card-subtitle> -->
+      <mat-card-subtitle class="subtitle-container">
+        <div class="mission-items">
+          <mat-icon fontIcon="move_to_inbox"></mat-icon> {{ mission.TakingOrderCount }}
+        </div>
+        <div class="mission-items">
+          <mat-icon fontIcon="list_alt"></mat-icon> {{ mission.DeliveryCount }}
+        </div>
+        <div class="mission-items">
+          <mat-icon fontIcon="attach_money"></mat-icon> {{ mission.VosoolMotalebatCount }}
+        </div>
+        <div class="mission-items">
+          <mat-icon fontIcon="outbox"></mat-icon> {{ mission.BardashtKalaCount }}
+        </div>
+      </mat-card-subtitle>
+      <mat-card-subtitle class="subtitle-container">
+        <span>{{ mission.MissionDone }}/{{ mission.MissionCount }}</span>
+        <span>موفق {{ mission.SuccessMissionCount }}</span>
+        <span>ناموفق {{ mission.UnsuccessMissionCount }}</span>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <button mat-raised-button (click)="onMissionDetailsClicked(mission!)" style="color: #fff;">جزئیات</button>
+  </mat-card>
+</div>

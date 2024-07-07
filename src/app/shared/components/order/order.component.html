@@ -14,7 +14,7 @@
     </mat-form-field>
   </div>
   
-  <div class="order-reports"  *ngIf="filteredData.length > 0;else emptyData">
+  <div class="order-reports" *ngIf="filteredData.length > 0;else emptyData">
     <app-order-card *ngFor="let data of filteredData" [orderReports]="data"></app-order-card>
   </div>
   

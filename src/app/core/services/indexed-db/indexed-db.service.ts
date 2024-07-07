@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbManagementService } from './indexedb-management.service';
-import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
-import { PromotionDetail } from '../../models/bazara/bazara-DTOs/promotion-detail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IndexedDbService {
-  
+
   personStoreName: any;
 
   constructor(private indexedDbManagementService: IndexedDbManagementService) { }
@@ -41,24 +39,66 @@ export class IndexedDbService {
     });
   }
 
-  async getByIndex<T>(storeName: string, indexName: string, searchData: string | number): Promise<T> {
+  async getById<T>(storeName: string, key: number): Promise<T> {
     await this.indexedDbManagementService.waitForDb();
     const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
     const objectStore = transaction.objectStore(storeName);
-    const index = objectStore.index(indexName);
 
-    return new Promise((resolve, reject) => {
-      const request = index.openCursor(IDBKeyRange.only(searchData));
-      request.onsuccess = function () {
-        const cursor = request.result;
-        if (cursor) {
-          resolve(cursor.value);
-          cursor.continue();
-        } else {
-        }
+    const combineKey = [this.getVisitorId(), key];
+    return new Promise<T>((resolve, reject) => {
+      const getRequest = objectStore.get(combineKey);
+      getRequest.onsuccess = (event: any) => {
+        let obj: T = (event.target as IDBRequest<T>).result;
+        resolve(obj);
+      };
+
+      getRequest.onerror = (event: any) => {
+        reject(new Error('Failed to get data: ' + (event.target as any).error.message));
       };
     });
   }
+
+  async getByIndex<T>(storeName: string, indexName: string, searchData: string | number): Promise<T[]> {
+    this.indexedDbManagementService.waitForDb();
+    const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
+    const objectStore = transaction.objectStore(storeName);
+    const index = objectStore.index(indexName);
+    
+    return new Promise((resolve, reject) => {
+      const request = index.getAll(searchData);
+      request.onsuccess = function () {
+        console.log(request.result);
+        
+        const cursor = request.result;        
+        // if (cursor) {
+          resolve(cursor);
+        // }
+      };
+
+      request.onerror = (event: any) => {
+        reject(new Error('Failed to get data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+
+  // async countByIndex<T>(storeName: string, indexName: string, searchData: string | number): Promise<number> {
+  //   this.indexedDbManagementService.waitForDb();
+  //   const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
+  //   const objectStore = transaction.objectStore(storeName);
+  //   const index = objectStore.index(indexName);
+    
+  //   return new Promise((resolve, reject) => {
+  //     const request = index.count(searchData);
+  //     request.onsuccess = function () {
+  //       const cursor = request.result;
+  //         resolve(cursor);
+  //     };
+
+  //     request.onerror = (event: any) => {
+  //       reject(new Error('Failed to get data: ' + (event.target as any).error.message));
+  //     };
+  //   });
+  // }
 
   async addOrEdit<T>(storeName: string, data: T, key: IDBValidKey): Promise<T> {
     try {
@@ -117,5 +157,4 @@ export class IndexedDbService {
       };
     });
   }
-
 }

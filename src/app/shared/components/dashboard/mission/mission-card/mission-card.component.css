@@ -1,13 +1,3 @@
-.container {
-    display: flex;
-    flex-wrap: nowrap;
-    scrollbar-color: transparent !important;
-    scrollbar-width: 2px !important;
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 1px;
-}
-
 .card-container {
     margin-left: 10px;
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
@@ -17,6 +7,25 @@
 
 .card-header {
     width: 280px;
+}
+
+mat-card-subtitle {
+    margin: 10px 0 !important;
+}
+
+.subtitle-container {
+    display: flex; 
+    justify-content: space-around;
+}
+
+.mission-items {
+    display: flex;
+    align-items: flex-end;
+}
+
+.mat-mdc-raised-button {
+    width: 100%;
+    background-color: #369139 !important;
 }
 
 @media (max-width: 389px) {

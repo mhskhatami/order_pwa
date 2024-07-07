@@ -7,8 +7,8 @@ import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 import { AppRoutingModule } from './app-routing.module';
+
 import { MaterialModule } from './shared/modules/material/material.module';
 
 import { AppComponent } from './app.component';
@@ -42,6 +42,8 @@ import { OrderComponent } from './shared/components/order/order.component';
 import { OrderCardComponent } from './shared/components/order/order-card/order-card.component';
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
+import { MissionDetailComponent } from './shared/components/dashboard/mission/mission-detail/mission-detail.component';
+import { MissionChangeStatusComponent } from './shared/components/dashboard/mission/mission-change-status/mission-change-status.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { PromotionDetailComponent } from './shared/components/promotion-detail/p
     BottomSheetCategoryComponent,
     PromotionListComponent,
     PromotionDetailComponent,
+    MissionDetailComponent,
+    MissionChangeStatusComponent
   ],
   exports: [
     FooterComponent
