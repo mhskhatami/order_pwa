@@ -1,44 +1,47 @@
-<div>
+<div class="daily-report">
     <mat-accordion>
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title class="header-panel">
-                    <span style="margin-top: 15px;">شنبه 1403/02/10</span>
+                    <span class="date">{{ date | persianDate }}</span>
                     <div class="aggregate-report">
-                        <div style="width: 100px;">
-                            <h4>128,693,000</h4>
-                            <span>پیش فاکتور</span>
+                        <div class="report-item">
+                            <span>فاکتور</span>
+                            <h4>128,693,344</h4>
                         </div>
                         <mat-divider [vertical]="true"></mat-divider>
-                        <div style="width: 100px;">
+
+                        <div class="report-item">
+                            <span>پیش فاکتور</span>
                             <h4>36,000,000</h4>
-                            <span>پیش فاکتور</span>
                         </div>
                         <mat-divider [vertical]="true"></mat-divider>
-                        <div style="width: 100px;">
+
+                        <div class="report-item">
+                            <span>دریافتی</span>
                             <h4>96,380,000</h4>
-                            <span>پیش فاکتور</span>
                         </div>
                     </div>
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="extended-panel">
-                <div style="width: 100px;">
-                    <p><span style="font-size: medium; font-weight: 500;">تخفیف</span> 14560000</p>
-                    <p><span style="font-size: medium; font-weight: 500;">عوارض و مالیات</span> 14560000</p>
-                    <p><span style="font-size: medium; font-weight: 500;">خالص</span> 14560000</p>
+                <div class="extended-item">
+                    <h5>فاکتور</h5>
+                    <p><span class="label">تخفیف</span> <span class="value">14,560,000</span></p>
+                    <p><span class="label">عوارض و مالیات</span> <span class="value">14,560,000</span></p>
+                    <p><span class="label">خالص</span> <span class="value">14,560,000</span></p>
                 </div>
-                <mat-divider [vertical]="true"></mat-divider>
-                <div style="width: 100px;">
-                    <p><span style="font-size: medium; font-weight: 500;">تخفیف</span> 14560000</p>
-                    <p><span style="font-size: medium; font-weight: 500;">عوارض و مالیات</span> 14560000</p>
-                    <p><span style="font-size: medium; font-weight: 500;">خالص</span> 14560000</p>
+                <div class="extended-item">
+                    <h5>پیش فاکتور</h5>
+                    <p><span class="label">تخفیف</span> <span class="value">14,560,000</span></p>
+                    <p><span class="label">عوارض و مالیات</span> <span class="value">14,560,000</span></p>
+                    <p><span class="label">خالص</span> <span class="value">14,560,000</span></p>
                 </div>
-                <mat-divider [vertical]="true"></mat-divider>
-                <div style="width: 100px;">
-                    <p><span style="font-size: medium; font-weight: 500;">تخفیف</span> 14560000</p>
-                    <p><span style="font-size: medium; font-weight: 500;">عوارض و مالیات</span> 14560000</p>
-                    <p><span style="font-size: medium; font-weight: 500;">خالص</span> 14560000</p>
+                <div class="extended-item">
+                    <h5>دریافتی</h5>
+                    <p><span class="label">چک</span> <span class="value">14,560,000</span></p>
+                    <p><span class="label">حواله</span> <span class="value">14,560,000</span></p>
+                    <p><span class="label">نقدی</span> <span class="value">14,560,000</span></p>
                 </div>
             </div>
         </mat-expansion-panel>

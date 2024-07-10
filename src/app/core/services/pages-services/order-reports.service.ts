@@ -35,7 +35,9 @@ export class OrderReportsService {
         data.PersonName = relatedPerson?.FirstName! + ' ' + relatedPerson?.LastName!;
 
         const relatedOrderDetails = orderDetails.filter(detail => detail.OrderId === order.OrderId)
-        data.OrderSum = rialCurrencyPipe.transform(relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0));
+        data.OrderSum = rialCurrencyPipe.transform(relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price * detail.Count1), 0));
+      
+
 
         this.filteredData.unshift(data);
       });

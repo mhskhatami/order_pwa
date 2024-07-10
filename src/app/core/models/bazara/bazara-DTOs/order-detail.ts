@@ -1,4 +1,6 @@
 export interface OrderDetail {
+    UnitPrice: number;
+    Weight: number;
     OrderDetailId: number;
     OrderDetailClientId: number;
     ItemType: number;

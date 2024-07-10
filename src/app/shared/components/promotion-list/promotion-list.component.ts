@@ -35,6 +35,8 @@ export class PromotionListComponent implements OnInit {
 
   async loadPromotionsAndEntities() {
     const promotions = await this.indexedDbService.getAllData<Promotion>("Promotion");
+    console.log(promotions);
+    
     const promotionEntities = await this.indexedDbService.getAllData<PromotionEntity>("PromotionEntity");
 
     this.promotions = promotions.filter(promotion => !promotion.Deleted);
@@ -44,11 +46,7 @@ export class PromotionListComponent implements OnInit {
   get filteredPromotions() {
     return this.promotions.filter(promotion =>
       this.getOtherField(promotion, 'NamePromotion').toLowerCase().includes(this.searchText.toLowerCase())
-    ).filter(promotion => {
-      const otherFields = this.parseOtherFields(promotion.OtherFields);
-      return !(otherFields.IsAllGood && otherFields.IsAllCustomer && otherFields.IsAllService &&
-               otherFields.IsAllAnbar && otherFields.IsAllVisitor);
-    });
+    )
   }
 
   parseOtherFields(otherFieldsStr: string): any {

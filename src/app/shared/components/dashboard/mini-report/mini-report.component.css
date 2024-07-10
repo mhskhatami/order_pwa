@@ -1,28 +1,139 @@
-.aggregate-report {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    padding-bottom: 15px; 
+.daily-report {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mat-expansion-panel {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
 
 .mat-expansion-panel-header {
-    height: 150px;
+    height: auto;
+    padding: 20px;
 }
 
 .header-panel {
     display: flex;
     flex-direction: column;
     width: 100%;
-    justify-content: space-around;
-    align-items: flex-start;
+}
+
+.date {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.aggregate-report {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.report-item {
+    text-align: center;
+    flex: 1;
+}
+
+.report-item h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 5px;
+    color: #2c3e50;
+}
+
+.report-item span {
+    font-size: 12px;
+    color: #7f8c8d;
 }
 
 .extended-panel {
     display: flex; 
-    justify-content: space-around; 
-    margin: 25px 0;
+    justify-content: space-between; 
+    padding: 25px;
 }
 
-.mat-divider {
-    margin: 0 5px;
+.extended-item {
+    flex: 1;
+    text-align: right;
+    margin: 10px;
+}
+
+.extended-item h5 {
+    font-size: 18px;
+    margin: 0 0 15px;
+    color: #2c3e50;
+}
+
+.extended-item p {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.label {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.value {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+@media (max-width: 600px) {
+    .mat-expansion-panel-header {
+        padding: 25px;
+    }
+
+    .date {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .aggregate-report {
+        flex-direction: column;
+    }
+
+    .report-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .report-item h4 {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .report-item span {
+        font-size: 14px;
+    }
+
+    .extended-panel {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .extended-item {
+        margin-bottom: 20px;
+    }
+
+    .extended-item h5 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .extended-item p {
+        font-size: 12px;
+    }
+
+    .label, .value {
+        font-size: 12px;
+    }
 }

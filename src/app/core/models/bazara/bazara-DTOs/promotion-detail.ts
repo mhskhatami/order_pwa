@@ -16,7 +16,7 @@ export interface PromotionDetail {
     PromotionCode: number;
 }
 
-export interface OtherFields {
+export interface PromotionDetailOtherFields {
     CodePromotion_Det: number;
     HowToPromotion: number;
     IsCalcAdditive: boolean;

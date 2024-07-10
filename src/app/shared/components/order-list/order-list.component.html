@@ -1,44 +1,65 @@
 <!-- Loading Spinner -->
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
-<div class="loading-container" *ngIf="isLoading">
+<div class="loading-overlay" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   <div class="loading-text">در حال بارگذاری سفارشات...</div>
 </div>
 
-<!-- Search Bar -->
-<div *ngIf="!isLoading && orders" class="container">
+<!-- Main Container -->
+<div class="main-container" *ngIf="!isLoading && orders">
+  <!-- Search Bar -->
   <div class="search-bar">
     <mat-form-field appearance="outline" class="full-width">
       <mat-icon matPrefix>search</mat-icon>
       <input matInput [(ngModel)]="searchText" placeholder="جستجو در سفارشات" aria-label="Search">
-      <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
+      <button mat-icon-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </div>
 
-</div>
-
-<!-- Order List Container -->
-<div class="order-list-container">
-  <div class="list-container" *ngIf="!isLoading && orders">
-    <!-- Order Cards -->
+  <!-- Order List -->
+  <div class="order-list">
     <mat-card *ngFor="let order of filteredOrders" class="order-card">
       <mat-card-header>
         <mat-card-title>
           {{ getPersonName(order.PersonId) }}
-          <!-- Smaller font size for organization -->
           <span class="organization">{{ getPerson(order.PersonId)?.Organization }}</span>
         </mat-card-title>
-        <mat-card-subtitle>شماره فاکتور : {{ order.OrderId }}</mat-card-subtitle>
-        <mat-card-subtitle>کد پیگیری : {{ order.OrderClientId }}</mat-card-subtitle>
-        <mat-card-subtitle>تاریخ فاکتور : {{ getFormattedPersianDate(order.OrderDate) }}</mat-card-subtitle>
+        <mat-card-subtitle>
+          <div>شماره فاکتور: {{ order.OrderId }}</div>
+          <div>کد پیگیری: {{ order.OrderClientId }}</div>
+          <div>تاریخ فاکتور: {{ getFormattedPersianDate(order.OrderDate) }}</div>
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>مبلغ فاکتور: {{ getOrderSum(order) | rialCurrency }}</p>
+        <table class="order-summary">
+          <tr>
+            <td>جمع کل:</td>
+            <td>{{ getOrderSubtotal(order) | rialCurrency }}</td>
+          </tr>
+          <tr>
+            <td>تخفیف:</td>
+            <td>{{ getOrderDiscount(order) | rialCurrency }}</td>
+          </tr>
+          <tr>
+            <td>مالیات:</td>
+            <td>{{ getOrderTax(order) | rialCurrency }}</td>
+          </tr>
+          <tr>
+            <td>عوارض:</td>
+            <td>{{ getOrderCharge(order) | rialCurrency }}</td>
+          </tr>
+          <tr class="total-row">
+            <td>مبلغ نهایی فاکتور:</td>
+            <td>{{ getOrderSum(order) | rialCurrency }}</td>
+          </tr>
+        </table>
       </mat-card-content>
-      <!-- Order Detail Button -->
-      <button mat-raised-button color="primary" [routerLink]="['/order-detail', order.OrderId]"
-        class="order-button">جزییات سفارش</button>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [routerLink]="['/order-detail', order.OrderId]">
+          جزییات سفارش
+        </button>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>
