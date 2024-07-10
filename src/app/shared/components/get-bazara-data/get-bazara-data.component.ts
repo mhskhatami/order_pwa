@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+
 import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
 import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
 import { BazaraService } from '../../../core/services/bazara/bazara.service';
-import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
 import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
-import { STORE_NAMES } from '../../../core/constants/store-names';
-
+import { UtilityService } from 'src/app/core/services/common/utility.service';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -22,7 +21,7 @@ export class GetBazaraDataComponent implements OnInit {
   maxRowVersionModel: IGetBazaraData = {};
   visitorId = localStorage.getItem('VisitorId')!;
 
-  constructor(private indexedDbService: IndexedDbService, private bazaraService: BazaraService) { }
+  constructor(private indexedDbService: IndexedDbService, private bazaraService: BazaraService, private utilityService: UtilityService) { }
 
   ngOnInit(): void {
     this.fetchAllData();
@@ -30,23 +29,24 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchAllData() {
     try {
-      // Get max row versions for all required data stores
-      for (const store of STORE_NAMES) {
-        const property = `from${store}Version` as keyof IGetBazaraData;
-        this.maxRowVersionModel[property] = await this.indexedDbService.getMaxRowVersion(store);
-      }
+      this.utilityService.storeNameList.subscribe(res => {
+        res.forEach(async store => {
+          const property = `from${store.storeName}Version` as keyof IGetBazaraData;
+          this.maxRowVersionModel[property] = await this.indexedDbService.getMaxRowVersion(store.storeName);
 
-      // Fetch all data
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
-          if (res.Result) {
-            this.handleReceivedData(res.Data.Objects);
-          }
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      });
+          this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+            next: (res: IApiResult) => {
+              if (res.Result) {
+                this.handleReceivedData(res.Data.Objects);
+              }
+            },
+            error: (err) => {
+              console.log(err);
+            }
+          });
+        });
+        
+      });  
     } catch (error) {
       console.error('Error fetching data:', error);
       this.terminate = true;
@@ -99,4 +99,3 @@ export class GetBazaraDataComponent implements OnInit {
     }
   }
 }
-

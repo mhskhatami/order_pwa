@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { STORE_NAMES } from '../../constants/store-names'; // Adjust the import path as necessary
+import { StoreNameModel } from '../../../core/models/indexed-db/StoreNameModel';
+import { UtilityService } from '../common/utility.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +8,19 @@ import { STORE_NAMES } from '../../constants/store-names'; // Adjust the import 
 export class IndexedDbManagementService {
 
   db: any;
+  private dbVersion = 1;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 15;
+  StoreNameList: StoreNameModel[] = [];
 
-  constructor() {
-    this.openDatabase();
+  constructor(private utilityService: UtilityService) {
+    this.getStoreNamesList();
+    this.openDatabase();    
+  }
+  
+  getStoreNamesList() {
+    this.utilityService.storeNameList.subscribe(res =>{
+      this.StoreNameList = res;
+    });
   }
 
   async openDatabase(storeName?: string): Promise<IDBDatabase> {
@@ -20,15 +29,17 @@ export class IndexedDbManagementService {
 
       request.onupgradeneeded = (event) => {
         this.db = (event.target as IDBRequest<IDBDatabase>).result;
-        STORE_NAMES.forEach(store => {
-          if (!this.db.objectStoreNames.contains(store)) {
-            this.db.createObjectStore(store);
+        this.StoreNameList.forEach((store: StoreNameModel) => {
+          if (!this.db.objectStoreNames.contains(store.storeName)) {
+            const creation = this.db.createObjectStore(store.storeName);
+
+            if (store.indexes) {
+              store.indexes.forEach(storeIndex => {
+                creation.createIndex(storeIndex.indexName, storeIndex.indexValue, { unique: false })
+              });
+            }
           }
         });
-
-        if (storeName && !this.db.objectStoreNames.contains(storeName)) {
-          this.db.createObjectStore(storeName);
-        }
       };
 
       request.onsuccess = (event) => {

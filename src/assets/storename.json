@@ -3,13 +3,70 @@
         "storeName": "Person"
     },
     {
+        "storeName": "VisitorPerson"
+    },
+    {
+        "storeName": "ProductCategory"
+    },
+    {
+        "storeName": "PersonAddress"
+    },
+    {
+        "storeName": "Product"
+    },
+    {
+        "storeName": "VisitorProduct"
+    }, 
+    {
+        "storeName": "ProductDetail"
+    },
+    {
+        "storeName": "PhotoGallery"
+    },
+    {
+        "storeName": "Picture"
+    },
+    {
+        "storeName": "ProductDetailStoreAsset"
+    },
+    {
+        "storeName": "Bank"
+    },
+    {
         "storeName": "Mission"
     },
     {
-        "storeName": "MissionDetail",
-        "indexs": {
-            "by-MissionId": "MissionId",
-            "by-PersonId": "PersonId"
-        }
+        "storeName": "MissionDetail", 
+        "indexes": [
+            {"indexName": "by-missionId", "indexValue": "MissionId"},
+            {"indexName": "by-personId" , "indexValue": "PersonId"}
+        ]
+    },
+    {
+        "storeName": "Order"
+    },
+    {
+        "storeName": "OrderDetail"
+    },
+    {
+        "storeName": "Login"
+    },
+    {
+        "storeName": "PromotionEntity"
+    },
+    {
+        "storeName": "Promotion"
+    },
+    {
+        "storeName": "PromotionDetail"
+    },
+    {
+        "storeName": "ExtraData"
+    },
+    {
+        "storeName": "Setting"
+    },
+    {
+        "storeName": "PropertyDescription"
     }
 ]
