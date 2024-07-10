@@ -91,9 +91,6 @@ export class PromotionService {
       (promotionOtherFields.IsAllAnbar || await this.areAnbarsEligibleForPromotion(promo.PromotionId, anbarCodes))
     ));
     
-    
-    
-
     return (
       (promotionOtherFields.IsAllCustomer || await this.isCustomerEligibleForPromotion(promo.PromotionId, personCode)) &&
       (promotionOtherFields.IsAllVisitor || await this.isVisitorEligibleForPromotion(promo.PromotionId, visitorCode)) &&
