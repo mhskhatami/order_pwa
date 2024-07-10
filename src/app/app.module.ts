@@ -35,14 +35,14 @@ import { MiniReportComponent } from './shared/components/dashboard/mini-report/m
 import { MissionComponent } from './shared/components/dashboard/mission/mission.component';
 import { OperationSectionComponent } from './shared/components/dashboard/operation-section/operation-section.component';
 import { MissionCardComponent } from './shared/components/dashboard/mission/mission-card/mission-card.component';
-import { RialCurrencyPipe } from './rial-currency.pipe';
+import { RialCurrencyPipe } from './shared/pipe/rial-currency.pipe';
 import { BottomSheetCategoryComponent } from './shared/components/product/bottom-sheet-category/bottom-sheet-category.component';
-import { PersianDatePipe } from './persian-date.pipe';
+import { PersianDatePipe } from './shared/pipe/persian-date.pipe';
 import { OrderComponent } from './shared/components/order/order.component';
 import { OrderCardComponent } from './shared/components/order/order-card/order-card.component';
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
-import { SumByPipe } from './sum-by.pipe';
+import { SumByPipe } from './shared/pipe/sum-by.pipe';
 import { MissionDetailComponent } from './shared/components/dashboard/mission/mission-detail/mission-detail.component';
 import { MissionChangeStatusComponent } from './shared/components/dashboard/mission/mission-change-status/mission-change-status.component';
 

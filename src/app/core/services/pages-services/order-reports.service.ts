@@ -4,7 +4,7 @@ import { OrdersReports } from '../../models/pages/OrdersReports';
 import { Order } from '../../models/bazara/bazara-DTOs/order';
 import { OrderDetail } from '../../models/bazara/bazara-DTOs/order-detail';
 import { Person } from '../../models/bazara/bazara-DTOs/Person';
-import { RialCurrencyPipe } from 'src/app/rial-currency.pipe';
+import { RialCurrencyPipe } from 'src/app/shared/pipe/rial-currency.pipe';
 
 @Injectable({
   providedIn: 'root'
