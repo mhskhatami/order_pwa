@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 import { IndexedDbService } from '../indexed-db/indexed-db.service';
 import { MissionDetailDTO, MissionDTO } from '../../models/pages/MissionListDTO';
 import { Mission } from '../../models/bazara/bazara-DTOs/Mission';
-import { StoreName } from '../../models/indexed-db/StoreName';
 import { MissionDetail } from '../../models/bazara/bazara-DTOs/MissionDetail';
 import { Person } from '../../models/bazara/bazara-DTOs/Person';
 import { PersonAddress } from '../../models/bazara/bazara-DTOs/PersonAddress';
@@ -26,8 +25,8 @@ export class MissionService {
     let detailData: MissionDetailDTO = {};
 
     Promise.all([
-      this.indexedDbService.getAllData<Mission>(StoreName.Mission),
-      this.indexedDbService.getAllData<MissionDetail>(StoreName.MissionDetail)
+      this.indexedDbService.getAllData<Mission>('Mission'),
+      this.indexedDbService.getAllData<MissionDetail>('MissionDetail')
     ]).then(([missions, missionDetails]) => {
       missions.forEach(mission => {
         if (!mission.Deleted) {
@@ -106,7 +105,7 @@ export class MissionService {
       UpdateSyncId: 0, UserName: '', Zone: ''
     };
 
-    await this.indexedDbService.getById<Person>(StoreName.Person, personId).then((res: Person) => {
+    await this.indexedDbService.getById<Person>('Person', personId).then((res: Person) => {
       relatedPerson = res;
     });
 
@@ -125,7 +124,7 @@ export class MissionService {
       PersonAddressId: 0, PostalCode: 0, Tel: 0, Title: '' 
     };
 
-    await this.indexedDbService.getById<PersonAddress>(StoreName.PersonAddress, personAddressId).then((res: PersonAddress) => {
+    await this.indexedDbService.getById<PersonAddress>('PersonAddress', personAddressId).then((res: PersonAddress) => {
       relatedPersonAddress = res;
     });
 

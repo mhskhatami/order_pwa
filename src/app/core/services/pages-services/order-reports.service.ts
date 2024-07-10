@@ -5,7 +5,6 @@ import { Order } from '../../models/bazara/bazara-DTOs/order';
 import { OrderDetail } from '../../models/bazara/bazara-DTOs/order-detail';
 import { Person } from '../../models/bazara/bazara-DTOs/Person';
 import { RialCurrencyPipe } from 'src/app/rial-currency.pipe';
-import { StoreName } from '../../models/indexed-db/StoreName';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +21,9 @@ export class OrderReportsService {
     this.filteredData = [];
 
     Promise.all([
-      this.indexedDbService.getAllData<Order>(StoreName.Order),
-      this.indexedDbService.getAllData<OrderDetail>(StoreName.OrderDetail),
-      this.indexedDbService.getAllData<Person>(StoreName.Person)
+      this.indexedDbService.getAllData<Order>('Order'),
+      this.indexedDbService.getAllData<OrderDetail>('OrderDetail'),
+      this.indexedDbService.getAllData<Person>('Person')
     ]).then(([orders, orderDetails, people]) => {
       orders.forEach(order => {
         data = {};
