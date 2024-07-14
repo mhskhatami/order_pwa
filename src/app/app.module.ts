@@ -31,10 +31,10 @@ import { DrawerComponent } from './shared/components/drawer/drawer.component';
 import { MapComponent } from './shared/components/map/map.component';
 import { ProductComponent } from './shared/components/product/product.component';
 import { ProductCardComponent } from './shared/components/product/product-card/product-card.component';
-import { MiniReportComponent } from './shared/components/dashboard/mini-report/mini-report.component';
-import { MissionComponent } from './shared/components/dashboard/mission/mission.component';
-import { OperationSectionComponent } from './shared/components/dashboard/operation-section/operation-section.component';
-import { MissionCardComponent } from './shared/components/dashboard/mission/mission-card/mission-card.component';
+import { MiniReportComponent } from './shared/components/mini-report/mini-report.component';
+import { MissionComponent } from './shared/components/mission/mission.component';
+import { OperationSectionComponent } from './shared/components/operation-section/operation-section.component';
+import { MissionCardComponent } from './shared/components/mission/mission-card/mission-card.component';
 import { RialCurrencyPipe } from './shared/pipe/rial-currency.pipe';
 import { BottomSheetCategoryComponent } from './shared/components/product/bottom-sheet-category/bottom-sheet-category.component';
 import { PersianDatePipe } from './shared/pipe/persian-date.pipe';
@@ -43,8 +43,8 @@ import { OrderCardComponent } from './shared/components/order/order-card/order-c
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 import { SumByPipe } from './shared/pipe/sum-by.pipe';
-import { MissionDetailComponent } from './shared/components/dashboard/mission/mission-detail/mission-detail.component';
-import { MissionChangeStatusComponent } from './shared/components/dashboard/mission/mission-change-status/mission-change-status.component';
+import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
+import { MissionChangeStatusComponent } from './shared/components/mission/mission-change-status/mission-change-status.component';
 
 @NgModule({
   declarations: [

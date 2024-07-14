@@ -18,7 +18,7 @@ import { OrderComponent } from './shared/components/order/order.component';
 import { ReportsComponent } from './shared/components/reports/reports.component';
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
-import { MissionDetailComponent } from './shared/components/dashboard/mission/mission-detail/mission-detail.component';
+import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
