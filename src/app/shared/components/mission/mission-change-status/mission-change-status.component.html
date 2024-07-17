@@ -1,6 +1,6 @@
 <div style="padding: 0 30px 15px 30px; width: 224px;">
     <label style="margin-bottom: 2px;">تغییر وضعیت  دستور کار</label>
-    <mat-radio-group aria-label="Select an option" style="display: flex; flex-direction: column;" (click)="onClick($event)">
+    <mat-radio-group aria-label="Select an option" (click)="onClick($event)" [(ngModel)]="selectedStatus"  style="display: flex; flex-direction: column;" style="display: flex; flex-direction: column;">
         <mat-radio-button value="1">شروع نشده</mat-radio-button>
         <mat-radio-button value="2">در مسیر</mat-radio-button>
         <mat-radio-button value="3">موفق</mat-radio-button>

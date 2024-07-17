@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { MissionService } from 'src/app/core/services/pages-services/mission.service';
-import { MissionDTO } from 'src/app/core/models/pages/MissionListDTO';
+import { MissionDTO, MissionDetailDTO } from 'src/app/core/models/pages/MissionListDTO';
 import { MatDialog } from '@angular/material/dialog';
 import { MissionChangeStatusComponent } from '../mission-change-status/mission-change-status.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-mission-detail',
@@ -13,17 +14,18 @@ import { MissionChangeStatusComponent } from '../mission-change-status/mission-c
 })
 export class MissionDetailComponent implements OnInit {
 
-  selectedMission!: MissionDTO;
+  selectedMission: BehaviorSubject<MissionDTO> = new BehaviorSubject<MissionDTO>({});
+  selectedDetail!: MissionDetailDTO;
 
   constructor(private missionService: MissionService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.missionService.selectedMission.subscribe(res => {
-      this.selectedMission = res;
-    })
+      this.selectedMission.next(res);
+    });
 
-    this.getRelatedPerson(this.selectedMission);
-    this.getRelatedPersonAddress(this.selectedMission);
+    this.getRelatedPerson(this.selectedMission.value);
+    this.getRelatedPersonAddress(this.selectedMission.value);
   }
 
   getRelatedPerson(selectedMission: MissionDTO) {
@@ -44,22 +46,29 @@ export class MissionDetailComponent implements OnInit {
     });
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(MissionChangeStatusComponent);
+  openDialog(missionDetail: MissionDetailDTO) {
+    const dialogRef = this.dialog.open(MissionChangeStatusComponent, {
+      data: { defaultStatus: missionDetail.Status }
+    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result !== undefined) {
-        console.log(result, 'mission detail');
-        // if (+result === 1)
-        //   this.missionStatus = 'شروع نشده';
-        // else if (+result === 2)
-        //   this.missionStatus = 'در مسیر';
-        // else if (+result === 3)
-        //   this.missionStatus = 'موفق';
-        // else if (+result === 4)
-        //   this.missionStatus = 'ناموفق';
+    dialogRef.afterClosed().subscribe(newStatus => {
+      if (newStatus !== undefined) {
+       this.selectedMission.next(this.missionService.determineMissionStatus(this.selectedMission.value, missionDetail, newStatus));
+
+        missionDetail.Status = newStatus;
       }
     });
+  }
+
+  setDetailStatus(status: number): string {
+    if (+status === 1)
+      return 'شروع نشده';
+    else if (+status === 2)
+      return 'در مسیر';
+    else if (+status === 3) {
+      return 'موفق';
+    }
+
+    return 'ناموفق';
   }
 }

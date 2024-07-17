@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mission-change-status',
@@ -9,14 +9,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class MissionChangeStatusComponent {
   
-  selectedStatus: number = 1;
+  selectedStatus: string = "1";
 
-  constructor(public dialogRef: MatDialogRef<MissionChangeStatusComponent>) {}
+  constructor(public dialogRef: MatDialogRef<MissionChangeStatusComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: {defaultStatus: number}) {
+      this.selectedStatus = data.defaultStatus.toString();
+    }
 
   onClick(e: any) {
-    console.log(e.target.value);
-
     this.dialogRef.close(e.target.value);
   }
-
 }

@@ -3,7 +3,7 @@
     <mat-card-header class="card-header">
       <mat-card-title> کد رهگیری ماموریت : {{ mission.MissionId }}</mat-card-title>
       <mat-card-subtitle> تاریخ : {{ mission.MissionDate! | persianDate }} </mat-card-subtitle>
-      <!-- <mat-card-subtitle> وضعیت :  {{ missionStatus(mission.mi) }}</mat-card-subtitle> -->
+      <mat-card-subtitle> وضعیت :  {{ mission.MissionDone === mission.MissionCount ? 'تکمیل شده': 'تکمیل نشده'}}</mat-card-subtitle>
       <mat-card-subtitle class="subtitle-container">
         <div class="mission-items">
           <mat-icon fontIcon="move_to_inbox"></mat-icon> {{ mission.TakingOrderCount }}

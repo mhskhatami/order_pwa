@@ -20,8 +20,9 @@ export class MissionService {
 
   getMissionList(): MissionDTO[] {
     this.filteredData = [];
-    let data: MissionDTO = { TakingOrderCount: 0, DeliveryCount: 0, BardashtKalaCount: 0,
-                             VosoolMotalebatCount: 0, UnsuccessMissionCount: 0, SuccessMissionCount: 0, MissionDone: 0 };
+    let data: MissionDTO = {
+      TakingOrderCount: 0, DeliveryCount: 0, BardashtKalaCount: 0, VosoolMotalebatCount: 0
+    };
     let detailData: MissionDetailDTO = {};
 
     Promise.all([
@@ -31,14 +32,15 @@ export class MissionService {
       missions.forEach(mission => {
         if (!mission.Deleted) {
           data = {
-            TakingOrderCount: 0, DeliveryCount: 0, BardashtKalaCount: 0,
-            VosoolMotalebatCount: 0, SuccessMissionCount: 0, UnsuccessMissionCount: 0,
-            MissionDone: 0
+            TakingOrderCount: 0, DeliveryCount: 0, BardashtKalaCount: 0, VosoolMotalebatCount: 0
           };
 
           data.MissionId = mission.MissionId;
           data.MainDescription = mission.Description!;
           data.MissionDate = mission.Date;
+          data.MissionDone = mission.StatusAdmin ? missionDetails.length : 0;
+          data.UnsuccessMissionCount = 0;
+          data.SuccessMissionCount = 0;
 
           let relatedMissionDetails = missionDetails.filter(detail => detail.MissionId === mission.MissionId);
           data.MissionCount = relatedMissionDetails.length;
@@ -56,18 +58,6 @@ export class MissionService {
             detailData.PersonAddressId = detail.PersonAddressId;
 
             data.MissionDetails?.push(detailData);
-
-            if (detail.Status != null) {
-              if (detail.Status === 3) {
-                data.SuccessMissionCount = ++data.SuccessMissionCount!;
-                data.MissionDone = data.MissionDone;
-              }
-
-              if (detail.Status === 4) {
-                data.UnsuccessMissionCount = ++data.UnsuccessMissionCount!;
-                data.MissionDone = data.MissionDone;
-              }
-            }
 
             if (detail.Type != null) {
               if (detail.Type === 1)
@@ -117,11 +107,11 @@ export class MissionService {
   async findRelatedPersonAddress(personAddressId: number): Promise<PersonAddress> {
     let relatedPersonAddress: PersonAddress = {
       Address: '', CreateDate: '', CreateSyncId: 0, DataHash: '',
-      Deleted: false, Description: '', Latitude: 0.0, Longitude: 0.0, 
+      Deleted: false, Description: '', Latitude: 0.0, Longitude: 0.0,
       PersonClientId: 0, PersonCode: 0, CityId: 0, IsDefault: false,
       PersonId: 0, RowVersion: 0, UpdateDate: '', UpdateSyncId: 0,
-      Mobile: 0, PersonAddressClientId: 0, PersonAddressCode: 0, 
-      PersonAddressId: 0, PostalCode: 0, Tel: 0, Title: '' 
+      Mobile: 0, PersonAddressClientId: 0, PersonAddressCode: 0,
+      PersonAddressId: 0, PostalCode: 0, Tel: 0, Title: ''
     };
 
     await this.indexedDbService.getById<PersonAddress>('PersonAddress', personAddressId).then((res: PersonAddress) => {
@@ -131,5 +121,49 @@ export class MissionService {
     return new Promise((resolve, error) => {
       resolve(relatedPersonAddress);
     });
+  }
+
+  determineMissionStatus(mission: MissionDTO, detail: MissionDetailDTO, newStatus: number) {
+    if (+newStatus === 1) {
+      if (detail.Status == 3) {
+        mission.MissionDone = mission.MissionDone! - 1;
+        mission.SuccessMissionCount = mission.SuccessMissionCount! - 1;
+      }
+      else if (detail.Status == 4) {
+        mission.MissionDone = mission.MissionDone! - 1;
+        mission.UnsuccessMissionCount = mission.UnsuccessMissionCount! - 1
+      }
+    }
+    else if (+newStatus === 2) {
+      if (detail.Status == 3) {
+        mission.MissionDone = mission.MissionDone! - 1;
+        mission.SuccessMissionCount = mission.SuccessMissionCount! - 1;
+      }
+      else if (detail.Status == 4) {
+        mission.MissionDone = mission.MissionDone! - 1;
+        mission.UnsuccessMissionCount = mission.UnsuccessMissionCount! - 1;
+      }
+    }
+    else if (+newStatus === 3) {
+      if (detail.Status == 1 || detail.Status == 2) {
+        mission.MissionDone = mission.MissionDone! + 1;
+        mission.SuccessMissionCount = mission.SuccessMissionCount! + 1;
+      }
+      else if (detail.Status == 4) {
+        mission.SuccessMissionCount = mission.SuccessMissionCount! + 1;
+        mission.UnsuccessMissionCount = mission.UnsuccessMissionCount! - 1;
+      }
+    }
+    else if (+newStatus === 4) {
+      if (detail.Status == 1 || detail.Status == 2) {
+        mission.MissionDone = mission.MissionDone! + 1;
+        mission.UnsuccessMissionCount = mission.UnsuccessMissionCount! + 1;
+      }
+      else if (detail.Status == 3) {
+        mission.SuccessMissionCount = mission.SuccessMissionCount! - 1;
+        mission.UnsuccessMissionCount = mission.UnsuccessMissionCount! + 1;
+      }
+    }
+    return mission;
   }
 }
