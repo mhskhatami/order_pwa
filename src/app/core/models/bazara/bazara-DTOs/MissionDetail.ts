@@ -21,4 +21,5 @@ export interface MissionDetail {
     PersonCode: number;
     MissionClientId: number;
     MissionCode: number;
+    IsSync: boolean
 }

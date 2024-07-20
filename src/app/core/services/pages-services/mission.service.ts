@@ -42,7 +42,7 @@ export class MissionService {
           data.UnsuccessMissionCount = 0;
           data.SuccessMissionCount = 0;
 
-          let relatedMissionDetails = missionDetails.filter(detail => detail.MissionId === mission.MissionId);
+          let relatedMissionDetails = missionDetails.filter(detail => detail.MissionId === mission.MissionId && !detail.Deleted);
           data.MissionCount = relatedMissionDetails.length;
           data.MissionDetails = [];
 
@@ -164,6 +164,69 @@ export class MissionService {
         mission.UnsuccessMissionCount = mission.UnsuccessMissionCount! + 1;
       }
     }
+    this.saveMissionData(mission);
+    this.saveMissionDetailData(detail, newStatus);
     return mission;
+  }
+
+  saveMissionData(mission: MissionDTO) {
+    let restoredMission: Mission = {
+      AccountId: 0, CreateDate: '', DatabaseId: 0, Date: '', Deleted: false, Description: '', IsSync: true, MissionClientId: 0, MissionCode: 0, MissionId: 0, RowVersion: 0, StatusAdmin: 0, StatusDate: '', UpdateDate: ''
+    };
+    this.indexedDbService.getById<Mission>('Mission', mission.MissionId!).then(res => {
+      restoredMission.AccountId = res.AccountId;
+      restoredMission.CreateDate = res.CreateDate;
+      restoredMission.DatabaseId = res.DatabaseId;
+      restoredMission.Date = res.Date;
+      restoredMission.Deleted = res.Deleted;
+      restoredMission.Description = res.Description;
+      restoredMission.MissionClientId = res.MissionClientId;
+      restoredMission.MissionCode = res.MissionCode;
+      restoredMission.MissionId = res.MissionId;
+      restoredMission.RowVersion = res.RowVersion;
+      restoredMission.StatusAdmin = res.StatusAdmin;
+
+      let m = new Date();
+      restoredMission.UpdateDate = `${m.getFullYear() + '-' + ('0' + (m.getMonth() + 1)).slice(-2) + '-' + m.getDate() + 'T' + m.getHours() + ':' + m.getMinutes() + ':' + m.getSeconds()}`;
+      restoredMission.IsSync = false;
+
+      this.indexedDbService.addOrEdit<Mission>('Mission', restoredMission, [this.indexedDbService.getVisitorId(), restoredMission.MissionId]);
+    });
+  }
+
+  saveMissionDetailData(missionDetail: MissionDetailDTO, newStatus: number) {
+    let restoreDetail: MissionDetail = {
+      AccountId: 0, ActivityID: 0, CreateDate: '', DatabaseId: 0, Date: '', Deleted: false, Description: '', MissionClientId: 0, MissionCode: 0, MissionDetailClientId: 0, MissionDetailCode: 0, MissionDetailId: 0, MissionId: 0, PersonAddressId: 0, PersonClientId: 0, PersonCode: 0, PersonId: 0, Priority: 0, RowVersion: 0, Status: 0, Type: 0, UpdateDate: '', IsSync: true
+    };
+
+    this.indexedDbService.getById<MissionDetail>('MissionDetail', missionDetail.MissionDetailId!).then(res => {
+      restoreDetail.MissionDetailId = res.MissionDetailId;
+      restoreDetail.MissionId = res.MissionId;
+      restoreDetail.AccountId = res.AccountId;
+      restoreDetail.ActivityID = res.ActivityID;
+      restoreDetail.CreateDate = res.CreateDate;
+      restoreDetail.DatabaseId = res.DatabaseId;
+      restoreDetail.Date = res.Date;
+      restoreDetail.Deleted = res.Deleted;
+      restoreDetail.Description = res.Description;
+      restoreDetail.MissionClientId = res.MissionClientId;
+      restoreDetail.MissionCode = res.MissionCode;
+      restoreDetail.MissionDetailClientId = res.MissionDetailClientId;
+      restoreDetail.MissionDetailCode = res.MissionDetailCode;
+      restoreDetail.PersonAddressId = res.PersonAddressId;
+      restoreDetail.PersonId = res.PersonId;
+      restoreDetail.PersonClientId = res.PersonClientId;
+      restoreDetail.PersonCode = res.PersonCode;
+      restoreDetail.Type = res.Type;
+      restoreDetail.RowVersion = res.RowVersion;
+      restoreDetail.Priority = res.Priority;
+      
+      let m = new Date();
+      restoreDetail.UpdateDate = `${m.getFullYear() + '-' + ('0' + (m.getMonth() + 1)).slice(-2) + '-' + m.getDate() + 'T' + m.getHours() + ':' + m.getMinutes() + ':' + m.getSeconds()}`;
+      restoreDetail.Status = +newStatus;
+      restoreDetail.IsSync = false;
+
+      this.indexedDbService.addOrEdit<MissionDetail>('MissionDetail', restoreDetail, [this.indexedDbService.getVisitorId(), restoreDetail.MissionDetailId]);
+    });
   }
 }

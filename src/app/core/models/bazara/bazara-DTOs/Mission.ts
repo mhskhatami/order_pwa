@@ -12,4 +12,5 @@ export interface Mission {
     RowVersion: number;
     CreateDate: string;
     UpdateDate: string;
+    IsSync?: boolean 
 }

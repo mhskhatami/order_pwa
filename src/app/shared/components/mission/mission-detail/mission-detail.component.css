@@ -1,6 +1,6 @@
 .container {
     height: 100%;
-    background: linear-gradient(#E2E4E6 0%,#E2E4E6 40%,#fff 30%);
+    background: linear-gradient(#E2E4E6 0%, #E2E4E6 40%, #fff 30%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,4 +25,14 @@
     margin: 15px 0;
     display: flex;
     flex-wrap: wrap;
+}
+
+.mat-mdc-raised-button {
+    width: 100%;
+    background-color: #369139 !important;
+}
+
+.mission-type-style {
+    display: flex;
+    align-items: center;
 }
