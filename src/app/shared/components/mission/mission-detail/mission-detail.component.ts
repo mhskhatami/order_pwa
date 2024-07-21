@@ -55,6 +55,9 @@ export class MissionDetailComponent implements OnInit {
       if (newStatus !== undefined) {
        this.selectedMission.next(this.missionService.determineMissionStatus(this.selectedMission.value, missionDetail, newStatus));
 
+       this.missionService.saveMissionData(this.selectedMission.value);
+       this.missionService.saveMissionDetailData(missionDetail, newStatus);
+       
         missionDetail.Status = newStatus;
       }
     });

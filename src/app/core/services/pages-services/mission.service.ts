@@ -52,22 +52,31 @@ export class MissionService {
             detailData.MissionDetailId = detail.MissionDetailId;
             detailData.Priority = detail.Priority;
             detailData.DetailDescription = detail.Description;
-            detailData.Status = detail.Status;
             detailData.Type = detail.Type;
             detailData.PersonId = detail.PersonId;
             detailData.PersonAddressId = detail.PersonAddressId;
+            detailData.Status = detail.Status;
 
             data.MissionDetails?.push(detailData);
 
+            if (+detail.Status === 3) {
+              ++data.MissionDone!;
+              ++data.SuccessMissionCount!;
+            }
+            else if (+detail.Status === 4) {
+              ++data.MissionDone!;
+              ++data.UnsuccessMissionCount!;
+            }
+
             if (detail.Type != null) {
               if (detail.Type === 1)
-                data.TakingOrderCount = ++data.TakingOrderCount!;
+                ++data.TakingOrderCount!;
               else if (detail.Type === 2)
-                data.DeliveryCount = ++data.DeliveryCount!;
+                ++data.DeliveryCount!;
               else if (detail.Type === 3)
-                data.VosoolMotalebatCount = ++data.VosoolMotalebatCount!;
+                ++data.VosoolMotalebatCount!;
               else if (detail.Type === 4)
-                data.BardashtKalaCount = ++data.BardashtKalaCount!;
+                ++data.BardashtKalaCount!;
             }
           });
         }
@@ -123,7 +132,7 @@ export class MissionService {
     });
   }
 
-  determineMissionStatus(mission: MissionDTO, detail: MissionDetailDTO, newStatus: number) {
+  determineMissionStatus(mission: MissionDTO, detail: MissionDetailDTO, newStatus: number): MissionDTO {
     if (+newStatus === 1) {
       if (detail.Status == 3) {
         mission.MissionDone = mission.MissionDone! - 1;
@@ -164,8 +173,7 @@ export class MissionService {
         mission.UnsuccessMissionCount = mission.UnsuccessMissionCount! + 1;
       }
     }
-    this.saveMissionData(mission);
-    this.saveMissionDetailData(detail, newStatus);
+
     return mission;
   }
 
@@ -220,7 +228,7 @@ export class MissionService {
       restoreDetail.Type = res.Type;
       restoreDetail.RowVersion = res.RowVersion;
       restoreDetail.Priority = res.Priority;
-      
+
       let m = new Date();
       restoreDetail.UpdateDate = `${m.getFullYear() + '-' + ('0' + (m.getMonth() + 1)).slice(-2) + '-' + m.getDate() + 'T' + m.getHours() + ':' + m.getMinutes() + ':' + m.getSeconds()}`;
       restoreDetail.Status = +newStatus;
