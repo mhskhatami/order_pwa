@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="bottom-section" style="width: 100%; justify-content: space-around; flex-wrap: wrap;">
+    <!-- <div class="bottom-section" style="width: 100%; justify-content: space-around; flex-wrap: wrap;">
         <div *ngFor="let detail of (selectedMission | async)!.MissionDetails;let i = index"
             style="width: 30%; padding: 5px;">
             <mat-card>
@@ -65,16 +65,16 @@
                     <mat-card-subtitle>آدرس: {{ detail.Title }}</mat-card-subtitle>
                     <mat-card-subtitle>
                         <div *ngIf="detail.Type === 1" class="mission-type-style">
-                            <mat-icon fontIcon="outbox"></mat-icon><span>  دریافت سفارش</span>
+                            <mat-icon fontIcon="outbox"></mat-icon><span> دریافت سفارش</span>
                         </div>
-                        <div *ngIf="detail.Type === 2"  class="mission-type-style">
-                            <mat-icon fontIcon="list_alt"></mat-icon><span>  تحویل کالا</span>
+                        <div *ngIf="detail.Type === 2" class="mission-type-style">
+                            <mat-icon fontIcon="list_alt"></mat-icon><span> تحویل کالا</span>
                         </div>
-                        <div *ngIf="detail.Type === 3"  class="mission-type-style">
-                            <mat-icon fontIcon="attach_money"></mat-icon><span>  وصول مطالبات</span>
+                        <div *ngIf="detail.Type === 3" class="mission-type-style">
+                            <mat-icon fontIcon="attach_money"></mat-icon><span> وصول مطالبات</span>
                         </div>
-                        <div *ngIf="detail.Type === 4"  class="mission-type-style">
-                            <mat-icon fontIcon="move_to_inbox"></mat-icon><span>  برداشت کالا</span>
+                        <div *ngIf="detail.Type === 4" class="mission-type-style">
+                            <mat-icon fontIcon="move_to_inbox"></mat-icon><span> برداشت کالا</span>
                         </div>
                     </mat-card-subtitle>
                     <mat-card-subtitle>
@@ -88,5 +88,42 @@
                 <button mat-raised-button (click)="openDialog(detail)" style="color: white;">تعیین وضعیت</button>
             </mat-card>
         </div>
+    </div> -->
+    <div style=" width: 95%;">
+        <mat-grid-list [cols]="columnSize" style="background-color: aqua; width: 95%;">
+            <mat-grid-tile *ngFor="let detail of (selectedMission | async)!.MissionDetails;let i = index">
+                <mat-card class="card-style">
+                    <mat-card-header>
+                        <mat-card-title>دستورکار {{ i+1 }}</mat-card-title>
+                        <mat-card-subtitle>نام: {{ detail.PersonName }}</mat-card-subtitle>
+                        <mat-card-subtitle>آدرس: {{ detail.Title }}</mat-card-subtitle>
+                        <mat-card-subtitle>
+                            <div *ngIf="detail.Type === 1" class="mission-type-style">
+                                <mat-icon fontIcon="outbox"></mat-icon><span> دریافت سفارش</span>
+                            </div>
+                            <div *ngIf="detail.Type === 2" class="mission-type-style">
+                                <mat-icon fontIcon="list_alt"></mat-icon><span> تحویل کالا</span>
+                            </div>
+                            <div *ngIf="detail.Type === 3" class="mission-type-style">
+                                <mat-icon fontIcon="attach_money"></mat-icon><span> وصول مطالبات</span>
+                            </div>
+                            <div *ngIf="detail.Type === 4" class="mission-type-style">
+                                <mat-icon fontIcon="move_to_inbox"></mat-icon><span> برداشت کالا</span>
+                            </div>
+                        </mat-card-subtitle>
+                        <mat-card-subtitle>
+                            وضعیت: {{ setDetailStatus(detail.Status!) }}
+                        </mat-card-subtitle>
+                        <mat-card-subtitle class="descrition-style">
+                            <span [title]="detail.DetailDescription">
+                                توضیحات: {{ detail.DetailDescription }}
+                            </span>
+                        </mat-card-subtitle>
+                    </mat-card-header>
+
+                    <button mat-raised-button (click)="openDialog(detail)" style="color: white;">تعیین وضعیت</button>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
     </div>
 </div>
