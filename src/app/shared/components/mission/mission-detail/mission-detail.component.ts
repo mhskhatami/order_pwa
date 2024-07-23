@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 import { MissionService } from 'src/app/core/services/pages-services/mission.service';
 import { MissionDTO, MissionDetailDTO } from 'src/app/core/models/pages/MissionListDTO';
-import { MatDialog } from '@angular/material/dialog';
 import { MissionChangeStatusComponent } from '../mission-change-status/mission-change-status.component';
-import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mission-detail',
-  standalone: false,
   templateUrl: './mission-detail.component.html',
   styleUrl: './mission-detail.component.css'
 })
@@ -18,12 +17,16 @@ export class MissionDetailComponent implements OnInit {
   selectedMission: BehaviorSubject<MissionDTO> = new BehaviorSubject<MissionDTO>({});
   selectedDetail!: MissionDetailDTO;
   columnSize: number = 4;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.makeResponsive();
+  }
 
   constructor(private missionService: MissionService, private dialog: MatDialog, private router: Router) {
-   setTimeout(() => {
-     this.isObjEmpty(this.selectedMission.value);
-     this.makeResponsive();    
-   });
+    setTimeout(() => {
+      this.isObjEmpty(this.selectedMission.value);
+      this.makeResponsive();
+    });
   }
 
   ngOnInit(): void {
@@ -85,11 +88,18 @@ export class MissionDetailComponent implements OnInit {
   makeResponsive() {
     let monitorWidth = window.innerWidth;
 
-    if (monitorWidth < 425)
+    if (monitorWidth < 650)
       this.columnSize = 1;
-
-    if (monitorWidth < 728)
+    if (monitorWidth >= 650 && monitorWidth < 985)
       this.columnSize = 2;
+    if (monitorWidth >= 985 && monitorWidth < 1350)
+      this.columnSize = 3;
+    if (monitorWidth >= 1350 && monitorWidth < 1641)
+      this.columnSize = 4;
+    if (monitorWidth >= 1641 && monitorWidth < 2100)
+      this.columnSize = 5;
+    if (monitorWidth >= 2100)
+      this.columnSize = 6;
   }
 
   isObjEmpty(obj: MissionDTO) {
