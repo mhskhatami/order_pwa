@@ -1,5 +1,5 @@
 <div *ngIf="isLoading; else isLoading" class="container">
-    <div *ngIf="filteredData.length > 0; else emptyData" style="width: 100%; display: flex;">
+    <div *ngIf="filteredData.length > 0; else emptyData" class="mission-card-style">
         <app-mission-card *ngFor="let data of filteredData" [mission]="data"></app-mission-card>
     </div>
 

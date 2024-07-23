@@ -11,6 +11,12 @@
     padding: 15px;
 }
 
+.upper-section .main-data {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
 .middle-section {
     display: flex;
     justify-content: center;
@@ -19,6 +25,13 @@
     background-color: #fff;
     box-shadow: 5px 5px 5px rgb(205, 202, 202);
     margin: 15px;
+}
+
+.middle-section .main-data {
+    margin: 0 15px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
 }
 
 .bottom-section {
@@ -33,7 +46,7 @@
 }
 
 mat-card-subtitle {
-    margin: 5px 10px 5px 0 !important;
+    margin: 5px 15px 5px 0 !important;
 }
 
 .mission-type-style {
