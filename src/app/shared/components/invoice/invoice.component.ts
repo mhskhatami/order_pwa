@@ -96,6 +96,10 @@ export class InvoiceComponent implements OnInit {
 
   onDiscountChange(): void {
     this.discountAmount = this.invoiceForm.get('discount')?.value;
+
+    if(this.discountAmount == null)
+      this.discountAmount = 0;
+    
     this.discountType = this.invoiceForm.get('discountType')?.value;
     this.calculateTotal();
     this.calculateInvoiceSummary();
@@ -357,8 +361,6 @@ export class InvoiceComponent implements OnInit {
   }
 
   async applyPromotionInvoice(): Promise<void> {
-    console.log("again");
-    
     const productCodes = this.invoiceItems.map(item => {
       const productDetail = this.productDetails.find(pd => pd.ProductDetailId === item.ProductDetailId);
       return productDetail ? productDetail.ProductCode : 0;
@@ -380,11 +382,7 @@ export class InvoiceComponent implements OnInit {
       anbarCodes
     );
 
-    console.log(eligiblePromotions);
-    
     for (const { promotion, details } of eligiblePromotions) {
-      console.log(eligiblePromotions);
-      
       const promotionOtherFields: PromotionOtherFields = JSON.parse(promotion.OtherFields);
   
       // Apply each eligible detail for this promotion
@@ -432,13 +430,11 @@ private async applyPromotionDetail(detailOtherFields: PromotionDetailOtherFields
   
   private applyFixedAmountDiscount(amount: number): void {
     this.discountValue = amount;
-    console.log("this.discountValue" + this.discountValue);
-    
   }
   
   private applyPercentageDiscount(percentage: number): void {
     const discountAmount = this.subtotal * (percentage / 100);
-    this.discountValue += discountAmount;
+    this.discountValue = discountAmount;
   }
   
   private applyDiscountLevel(level: number): void {
@@ -544,11 +540,11 @@ private async applyPromotionDetail(detailOtherFields: PromotionDetailOtherFields
     this.subtotal = this.invoiceItems.reduce((acc, item) => acc + item.Price, 0);
 
     if (this.discountType === 1) {
-      this.discountValue += (this.subtotal * this.discountAmount) / 100;
+      this.discountValue = (this.subtotal * this.discountAmount) / 100;
     } else {
-      this.discountValue += this.discountAmount;
+      this.discountValue = this.discountAmount;
     }
-
+    
     const discountedSubtotal = this.subtotal - this.discountValue;
     this.totalTax = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.TaxPercent ), 0);
     this.totalCharge = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.ChargePercent ), 0);
