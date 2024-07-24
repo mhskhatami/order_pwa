@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MissionService } from 'src/app/core/services/pages-services/mission.service';
+import { UtilityService } from 'src/app/core/services/common/utility.service';
 import { MissionDTO, MissionDetailDTO } from 'src/app/core/models/pages/MissionListDTO';
 import { MissionChangeStatusComponent } from '../mission-change-status/mission-change-status.component';
 
@@ -22,14 +23,15 @@ export class MissionDetailComponent implements OnInit {
     this.makeResponsive();
   }
 
-  constructor(private missionService: MissionService, private dialog: MatDialog, private router: Router) {
+  constructor(private missionService: MissionService, private dialog: MatDialog, private router: Router, private utilityService: UtilityService) {
     setTimeout(() => {
       this.isObjEmpty(this.selectedMission.value);
-      this.makeResponsive();
     });
   }
-
+  
   ngOnInit(): void {
+    this.makeResponsive();
+
     this.missionService.selectedMission.subscribe(res => {
       this.selectedMission.next(res);
     });
@@ -86,24 +88,10 @@ export class MissionDetailComponent implements OnInit {
   }
 
   makeResponsive() {
-    let monitorWidth = window.innerWidth;
-
-    if (monitorWidth < 650)
-      this.columnSize = 1;
-    if (monitorWidth >= 650 && monitorWidth < 985)
-      this.columnSize = 2;
-    if (monitorWidth >= 985 && monitorWidth < 1350)
-      this.columnSize = 3;
-    if (monitorWidth >= 1350 && monitorWidth < 1641)
-      this.columnSize = 4;
-    if (monitorWidth >= 1641 && monitorWidth < 2100)
-      this.columnSize = 5;
-    if (monitorWidth >= 2100)
-      this.columnSize = 6;
+    this.columnSize = this.utilityService.makeGridResponsive(358);
   }
 
   isObjEmpty(obj: MissionDTO) {
     if (Object.keys(obj).length === 0)
       this.router.navigate(['/dashboard']);
-  }
-}
+  }}

@@ -21,4 +21,9 @@ export class UtilityService {
     this.httpClient.get<StoreNameModel[]>(this.url).subscribe((res: StoreNameModel[]) => {
       this.storeNameList.next(res);
     });
-  }}
+  }
+
+  makeGridResponsive(tileWidth: number): number {
+    return Math.floor((window.innerWidth) / tileWidth);
+  }
+}
