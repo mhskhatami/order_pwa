@@ -1,6 +1,6 @@
 .container {
     background-color: #fff;
-    padding: 25px 40px 25px 15px;
+    padding: 25px 35px 25px 15px;
     border-radius: 4px;
     display: flex;
     flex-wrap: wrap;
@@ -34,8 +34,15 @@
     height: 100px!important;
 }
 
-@media (min-width: 833px) {
+@media (max-width: 328px) {
     .container {
         justify-content: center!important;
+        padding-right: 20px;
+    }
+}
+
+@media (min-width: 350px) and (max-width:415){
+    .container {
+        padding-right: 65px;
     }
 }
