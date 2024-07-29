@@ -19,6 +19,8 @@ import { ReportsComponent } from './shared/components/reports/reports.component'
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
+import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -40,6 +42,7 @@ const routes: Routes = [
   { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
   { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
   { path: 'mission-detail', component: MissionDetailComponent, canActivate: [authGuard] },
+  { path: 'receipt-list', component: ReceiptListComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: 'dashboard' }
 ];
   

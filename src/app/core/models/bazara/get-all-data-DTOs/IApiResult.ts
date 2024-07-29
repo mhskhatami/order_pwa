@@ -19,6 +19,8 @@ import { ExtraData } from "../bazara-DTOs/extra-data";
 import { Promotion } from "../bazara-DTOs/promotion";
 import { PromotionDetail } from "../bazara-DTOs/promotion-detail";
 import { PromotionEntity } from "../bazara-DTOs/promotion-entity";
+import { Cheque } from "../bazara-DTOs/cheque";
+import { Receipt } from "../bazara-DTOs/receipt";
 
 export interface IApiResult {
     Data: IObject,
@@ -45,11 +47,12 @@ export interface IBazaraData {
     ProductCategories:ProductCategory[],
     Orders:Order[],
     OrderDetails:OrderDetail[],
-    PropertyDescriptions:PropertyDescription[]
-    Settings:Setting[]
-    ExtraDatas:ExtraData[]
-    Promotions:Promotion[]
-    PromotinDetails:PromotionDetail[]
-    PromotionEntities:PromotionEntity[]
-    
+    PropertyDescriptions:PropertyDescription[],
+    Settings:Setting[],
+    ExtraDatas:ExtraData[],
+    Promotions:Promotion[],
+    PromotinDetails:PromotionDetail[],
+    PromotionEntities:PromotionEntity[],
+    Receipts:Receipt[],
+    Cheques:Cheque[]
 }
