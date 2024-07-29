@@ -46,6 +46,8 @@ import { SumByPipe } from './shared/pipe/sum-by.pipe';
 import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
 import { MissionChangeStatusComponent } from './shared/components/mission/mission-change-status/mission-change-status.component';
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
+import { ReceiptDetailComponent } from './shared/components/receipt-detail/receipt-detail.component';
+
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { ReceiptListComponent } from './shared/components/receipt-list/receipt-l
     PromotionDetailComponent,
     MissionDetailComponent,
     MissionChangeStatusComponent,
-    ReceiptListComponent
+    ReceiptListComponent,
+    ReceiptDetailComponent
   ],
   exports: [
     FooterComponent

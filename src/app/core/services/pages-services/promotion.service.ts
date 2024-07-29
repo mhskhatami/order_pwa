@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 import { Promotion, PromotionOtherFields } from 'src/app/core/models/bazara/bazara-DTOs/promotion';
 import { InvoiceSummary } from 'src/app/core/models/bazara/bazara-DTOs/invoice-summary';
-import { PromotionDetail, PromotionDetailOtherFields } from '../models/bazara/bazara-DTOs/promotion-detail';
+import { PromotionDetail, PromotionDetailOtherFields } from '../../models/bazara/bazara-DTOs/promotion-detail';
 import * as moment from 'jalali-moment';
-import { OtherFields, PromotionEntity } from '../models/bazara/bazara-DTOs/promotion-entity';
+import { OtherFields, PromotionEntity } from '../../models/bazara/bazara-DTOs/promotion-entity';
 
 @Injectable({
   providedIn: 'root'

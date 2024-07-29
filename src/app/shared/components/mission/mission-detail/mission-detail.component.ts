@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 import { MissionService } from 'src/app/core/services/pages-services/mission.service';
+import { UtilityService } from 'src/app/core/services/common/utility.service';
 import { MissionDTO, MissionDetailDTO } from 'src/app/core/models/pages/MissionListDTO';
-import { MatDialog } from '@angular/material/dialog';
 import { MissionChangeStatusComponent } from '../mission-change-status/mission-change-status.component';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-mission-detail',
-  standalone: false,
   templateUrl: './mission-detail.component.html',
   styleUrl: './mission-detail.component.css'
 })
@@ -16,10 +17,21 @@ export class MissionDetailComponent implements OnInit {
 
   selectedMission: BehaviorSubject<MissionDTO> = new BehaviorSubject<MissionDTO>({});
   selectedDetail!: MissionDetailDTO;
+  columnSize: number = 4;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.makeResponsive();
+  }
 
-  constructor(private missionService: MissionService, private dialog: MatDialog) { }
-
+  constructor(private missionService: MissionService, private dialog: MatDialog, private router: Router, private utilityService: UtilityService) {
+    setTimeout(() => {
+      this.isObjEmpty(this.selectedMission.value);
+    });
+  }
+  
   ngOnInit(): void {
+    this.makeResponsive();
+
     this.missionService.selectedMission.subscribe(res => {
       this.selectedMission.next(res);
     });
@@ -53,11 +65,11 @@ export class MissionDetailComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(newStatus => {
       if (newStatus !== undefined) {
-       this.selectedMission.next(this.missionService.determineMissionStatus(this.selectedMission.value, missionDetail, newStatus));
+        this.selectedMission.next(this.missionService.determineMissionStatus(this.selectedMission.value, missionDetail, newStatus));
 
-       this.missionService.saveMissionData(this.selectedMission.value);
-       this.missionService.saveMissionDetailData(missionDetail, newStatus);
-       
+        this.missionService.saveMissionData(this.selectedMission.value);
+        this.missionService.saveMissionDetailData(missionDetail, newStatus);
+
         missionDetail.Status = newStatus;
       }
     });
@@ -74,4 +86,12 @@ export class MissionDetailComponent implements OnInit {
 
     return 'ناموفق';
   }
-}
+
+  makeResponsive() {
+    this.columnSize = this.utilityService.makeGridResponsive(358);
+  }
+
+  isObjEmpty(obj: MissionDTO) {
+    if (Object.keys(obj).length === 0)
+      this.router.navigate(['/dashboard']);
+  }}

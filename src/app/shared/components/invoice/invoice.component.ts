@@ -7,7 +7,7 @@ import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail
 import { Product } from 'src/app/core/models/bazara/bazara-DTOs/product';
 import { ProductDetail } from 'src/app/core/models/bazara/bazara-DTOs/productDetail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
-import { PromotionService } from 'src/app/core/services/promotion.service';
+import { PromotionService } from 'src/app/core/services/pages-services/promotion.service';
 import { Setting } from 'src/app/core/models/bazara/bazara-DTOs/setting';
 import { PromotionDetailOtherFields } from 'src/app/core/models/bazara/bazara-DTOs/promotion-detail';
 import { PromotionOtherFields } from 'src/app/core/models/bazara/bazara-DTOs/promotion';

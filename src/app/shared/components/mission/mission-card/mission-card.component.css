@@ -26,6 +26,7 @@ mat-card-subtitle {
 .mat-mdc-raised-button {
     width: 100%;
     background-color: #369139 !important;
+    color: white !important;
 }
 
 @media (max-width: 389px) {

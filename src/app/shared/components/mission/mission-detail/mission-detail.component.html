@@ -8,7 +8,7 @@
             <mat-option value="option3">Option 3</mat-option>
         </mat-select> -->
 
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="main-data">
             <span> {{ (selectedMission | async)!.MainDescription }} </span>
             <div
                 style="display: flex; justify-content: center;border: 4px solid gray; border-top: 2px solid; border-radius: 70%;border-bottom: none; height: 70px; width: 70px; padding: 35px;">
@@ -34,28 +34,70 @@
     </div>
 
     <div class="middle-section">
-        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+        <div class="main-data">
             <p>{{ (selectedMission | async)!.DeliveryCount}}</p>
             <mat-icon fontIcon="outbox"></mat-icon>
         </div>
 
-        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+        <div class="main-data">
             <p>{{ (selectedMission | async)!.BardashtKalaCount }}</p>
             <mat-icon fontIcon="list_alt"></mat-icon>
         </div>
 
-        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+        <div class="main-data">
             <p>{{ (selectedMission | async)!.VosoolMotalebatCount }}</p>
             <mat-icon fontIcon="attach_money"></mat-icon>
         </div>
 
-        <div style="margin: 0 15px; display: flex; flex-direction: column; align-items: center;">
+        <div class="main-data">
             <p>{{ (selectedMission | async)!.TakingOrderCount }}</p>
             <mat-icon fontIcon="move_to_inbox"></mat-icon>
         </div>
     </div>
 
-    <div class="bottom-section" style="width: 100%; justify-content: space-around; flex-wrap: wrap;">
+    <mat-grid-list gutterSize="5" [cols]="columnSize" class="bottom-section" rowHeight="245px">
+        <mat-grid-tile *ngFor="let detail of (selectedMission | async)!.MissionDetails;let i = index">
+            <mat-card class="card-style">
+                <mat-card-header>
+                    <mat-card-title>
+                        دستورکار {{ i+1 }}
+                        <mat-divider></mat-divider>
+                    </mat-card-title>
+                    <mat-card-subtitle>نام: {{ detail.PersonName }}</mat-card-subtitle>
+                    <mat-card-subtitle>آدرس: {{ detail.Title }}</mat-card-subtitle>
+                    <mat-card-subtitle>
+                        <div *ngIf="detail.Type === 1" class="mission-type-style">
+                            <mat-icon fontIcon="outbox"></mat-icon><span> دریافت سفارش</span>
+                        </div>
+                        <div *ngIf="detail.Type === 2" class="mission-type-style">
+                            <mat-icon fontIcon="list_alt"></mat-icon><span> تحویل کالا</span>
+                        </div>
+                        <div *ngIf="detail.Type === 3" class="mission-type-style">
+                            <mat-icon fontIcon="attach_money"></mat-icon><span> وصول مطالبات</span>
+                        </div>
+                        <div *ngIf="detail.Type === 4" class="mission-type-style">
+                            <mat-icon fontIcon="move_to_inbox"></mat-icon><span> برداشت کالا</span>
+                        </div>
+                    </mat-card-subtitle>
+                    <mat-card-subtitle>
+                        وضعیت: {{ setDetailStatus(detail.Status!) }}
+                    </mat-card-subtitle>
+                    <mat-card-subtitle class="descrition-style">
+                        <span [title]="detail.DetailDescription">
+                            توضیحات: {{ detail.DetailDescription }}
+                        </span>
+                    </mat-card-subtitle>
+                </mat-card-header>
+
+                <button mat-raised-button (click)="openDialog(detail)">تعیین وضعیت</button>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+
+
+<!-- <div class="bottom-section" style="width: 100%; justify-content: space-around; flex-wrap: wrap;">
         <div *ngFor="let detail of (selectedMission | async)!.MissionDetails;let i = index"
             style="width: 30%; padding: 5px;">
             <mat-card>
@@ -65,16 +107,16 @@
                     <mat-card-subtitle>آدرس: {{ detail.Title }}</mat-card-subtitle>
                     <mat-card-subtitle>
                         <div *ngIf="detail.Type === 1" class="mission-type-style">
-                            <mat-icon fontIcon="outbox"></mat-icon><span>  دریافت سفارش</span>
+                            <mat-icon fontIcon="outbox"></mat-icon><span> دریافت سفارش</span>
                         </div>
-                        <div *ngIf="detail.Type === 2"  class="mission-type-style">
-                            <mat-icon fontIcon="list_alt"></mat-icon><span>  تحویل کالا</span>
+                        <div *ngIf="detail.Type === 2" class="mission-type-style">
+                            <mat-icon fontIcon="list_alt"></mat-icon><span> تحویل کالا</span>
                         </div>
-                        <div *ngIf="detail.Type === 3"  class="mission-type-style">
-                            <mat-icon fontIcon="attach_money"></mat-icon><span>  وصول مطالبات</span>
+                        <div *ngIf="detail.Type === 3" class="mission-type-style">
+                            <mat-icon fontIcon="attach_money"></mat-icon><span> وصول مطالبات</span>
                         </div>
-                        <div *ngIf="detail.Type === 4"  class="mission-type-style">
-                            <mat-icon fontIcon="move_to_inbox"></mat-icon><span>  برداشت کالا</span>
+                        <div *ngIf="detail.Type === 4" class="mission-type-style">
+                            <mat-icon fontIcon="move_to_inbox"></mat-icon><span> برداشت کالا</span>
                         </div>
                     </mat-card-subtitle>
                     <mat-card-subtitle>
@@ -88,5 +130,4 @@
                 <button mat-raised-button (click)="openDialog(detail)" style="color: white;">تعیین وضعیت</button>
             </mat-card>
         </div>
-    </div>
-</div>
+    </div> -->

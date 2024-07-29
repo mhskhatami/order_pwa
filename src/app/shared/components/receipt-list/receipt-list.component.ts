@@ -4,6 +4,8 @@ import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
 import { Receipt } from 'src/app/core/models/bazara/bazara-DTOs/receipt';
 import { Cheque } from 'src/app/core/models/bazara/bazara-DTOs/cheque';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ReceiptDetailComponent } from '../receipt-detail/receipt-detail.component';
 
 @Component({
   selector: 'app-receipt-list',
@@ -24,7 +26,7 @@ export class ReceiptListComponent implements OnInit {
     );
   }
 
-  constructor(private indexedDbService: IndexedDbService) { }
+  constructor(private indexedDbService: IndexedDbService , private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -40,6 +42,16 @@ export class ReceiptListComponent implements OnInit {
     }).catch(error => {
       console.error('Error getting data from IndexedDB:', error);
       // Handle the error appropriately (e.g., display a user-friendly message)
+    });
+  }
+
+  openReceiptDetail(receipt: any) {
+    this.dialog.open(ReceiptDetailComponent, {
+      width: '600px',
+      data: {
+        receipt: receipt,
+        cheques: this.cheques
+      }
     });
   }
 

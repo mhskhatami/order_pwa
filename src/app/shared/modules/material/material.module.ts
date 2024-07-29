@@ -21,6 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 
 const MaterialComponents = [
@@ -46,7 +47,8 @@ const MaterialComponents = [
   MatDialogContent,
   MatProgressBarModule,
   MatToolbarModule,
-  MatRadioModule
+  MatRadioModule,
+  MatGridListModule
 ];
 
 @NgModule({

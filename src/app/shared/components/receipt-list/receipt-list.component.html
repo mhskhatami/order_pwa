@@ -54,7 +54,7 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" [routerLink]="['/receipt-detail', receipt.ReceiptId]">
+          <button mat-raised-button color="primary" (click)="openReceiptDetail(receipt)">
             جزییات رسید
           </button>
         </mat-card-actions>

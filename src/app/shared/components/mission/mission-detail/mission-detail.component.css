@@ -11,6 +11,12 @@
     padding: 15px;
 }
 
+.upper-section .main-data {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
 .middle-section {
     display: flex;
     justify-content: center;
@@ -18,21 +24,49 @@
     padding: 10px;
     background-color: #fff;
     box-shadow: 5px 5px 5px rgb(205, 202, 202);
+    margin: 15px;
+}
+
+.middle-section .main-data {
+    margin: 0 15px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
 }
 
 .bottom-section {
-    width: 100%;
+    width: 95%;
     margin: 15px 0;
-    display: flex;
-    flex-wrap: wrap;
 }
 
 .mat-mdc-raised-button {
     width: 100%;
     background-color: #369139 !important;
+    color: white !important;
+}
+
+mat-card-subtitle {
+    margin: 5px 15px 5px 0 !important;
 }
 
 .mission-type-style {
     display: flex;
     align-items: center;
+}
+
+.card-style {
+    width: 300px; 
+    height: 226px;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.descrition-style {
+    margin-bottom: 15px; 
+    display: block;
+    width: 240px ;
+    white-space: nowrap; 
+    overflow: hidden !important; 
+    text-overflow: ellipsis;
 }

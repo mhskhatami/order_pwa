@@ -26,6 +26,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'people-list', component: PeopleListComponent, canActivate: [authGuard] },
+  { path: 'receipt-list', component: ReceiptListComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
   { path: 'map', component: MapComponent, canActivate: [authGuard] },
@@ -42,7 +43,6 @@ const routes: Routes = [
   { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
   { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
   { path: 'mission-detail', component: MissionDetailComponent, canActivate: [authGuard] },
-  { path: 'receipt-list', component: ReceiptListComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: 'dashboard' }
 ];
   
