@@ -8,10 +8,15 @@ import { Router } from '@angular/router';
 })
 export class OperationSectionComponent {
 
+
   constructor(private router: Router) { }
 
   navigateToInvoice() {
     this.router.navigate(['/invoice']);
+  }
+
+  navigateToReceipt() {
+    this.router.navigate(['/receipt-list']);
   }
 
   navigateToPerson() {

@@ -72,4 +72,12 @@
     {
         "storeName": "PropertyDescription"
     }
+    ,
+    {
+        "storeName": "Receipt"
+    }
+    ,
+    {
+        "storeName": "Cheque"
+    }
 ]

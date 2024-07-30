@@ -21,12 +21,13 @@ import { PromotionDetailComponent } from './shared/components/promotion-detail/p
 import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
 import { PersonComponent } from './shared/components/person/person.component';
 import { PersonDetailComponent } from './shared/components/person-detail/person-detail.component';
+import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'people-list', component: PersonComponent, canActivate: [authGuard] },
-  { path: 'people-list/:personId', component: PersonDetailComponent, canActivate: [authGuard] },
+  { path: 'people-list', component: PeopleListComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
   { path: 'map', component: MapComponent, canActivate: [authGuard] },

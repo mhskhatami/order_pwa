@@ -22,4 +22,6 @@ export interface ReceivedBazaraData {
     promotionReceived?: boolean,
     promotionDetailReceived?: boolean,
     promotionEntityReceived?: boolean,
+    chequeReceived?: boolean,
+    receiptReceived?: boolean,
 }

@@ -16,7 +16,7 @@ navigateToIncentivePlans() {
   this.router.navigate(['/promotion-list']);
 }
 navigateToIncomes() {
-  throw new Error('Method not implemented.');
+  this.router.navigate(['/receipt-list']);
 }
 navigateToAndroid() {
  fetch('assets/image.png')

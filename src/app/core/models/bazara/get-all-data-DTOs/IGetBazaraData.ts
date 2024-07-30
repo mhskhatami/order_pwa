@@ -31,4 +31,7 @@ export interface IGetBazaraData {
 
     fromOrderVersion?: number,
     fromOrderDetailVersion?: number,
+
+    fromReceiptVersion?: number,
+    fromChequeVersion?: number,
 }

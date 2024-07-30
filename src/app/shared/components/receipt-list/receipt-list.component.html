@@ -1,0 +1,64 @@
+<!-- Loading Spinner -->
+<div class="loading-overlay" *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <div class="loading-text">در حال بارگذاری رسیدها...</div>
+  </div>
+  
+  <!-- Main Container -->
+  <div class="main-container" *ngIf="!isLoading && receipts.length">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="searchText" placeholder="جستجو در رسیدها" aria-label="Search">
+        <button mat-icon-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  
+    <!-- Receipt List -->
+    <div class="receipt-list">
+      <mat-card *ngFor="let receipt of filteredReceipts" class="receipt-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{ getPersonName(receipt.PersonId) }}
+            <span class="organization">{{ getPerson(receipt.PersonId)?.Organization }}</span>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <div>تاریخ رسید: {{ getFormattedPersianDate(receipt.Date) }}</div>
+            <div>کد پیگیری: {{ receipt.ReceiptClientId }}</div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="receipt-summary">
+            <tr>
+              <td>مبلغ نقدی:</td>
+              <td>{{ receipt.CashAmount | rialCurrency }}</td>
+            </tr>
+            <tr>
+              <td>جمع چک‌ها:</td>
+              <td>{{ getTotalChecks(receipt.ReceiptId) | rialCurrency }}</td>
+            </tr>
+            <tr>
+              <td>جمع حواله‌ها:</td>
+              <td>{{ getTotalRemittances(receipt.ReceiptId) | rialCurrency }}</td>
+            </tr>
+            <tr class="total-row">
+              <td>جمع کل:</td>
+              <td>{{ getTotalAmount(receipt) | rialCurrency }}</td>
+            </tr>
+          </table>
+          <div class="description">
+            توضیحات: {{ receipt.Description }}
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="openReceiptDetail(receipt)">
+            جزییات رسید
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  

@@ -75,7 +75,9 @@ export class GetBazaraDataComponent implements OnInit {
       ExtraDatas: ['ExtraData', 'extraDataReceived'],
       Promotions: ['Promotion', 'promotionReceived'],
       PromotionDetails: ['PromotionDetail', 'promotionDetailReceived'],
-      PromotionEntities: ['PromotionEntity', 'promotionEntityReceived']
+      PromotionEntities: ['PromotionEntity', 'promotionEntityReceived'],
+      Receipts: ['Receipt', 'receiptReceived'],
+      Cheques: ['Cheque', 'chequeReceived']
     };
 
     for (const [key, [storeName, statusKey]] of Object.entries(dataMapping)) {
