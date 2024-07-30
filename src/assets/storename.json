@@ -9,7 +9,10 @@
         "storeName": "ProductCategory"
     },
     {
-        "storeName": "PersonAddress"
+        "storeName": "PersonAddress",
+        "indexes": [
+            {"indexName": "by-personId" , "indexValue": "PersonId"}
+        ]
     },
     {
         "storeName": "Product"

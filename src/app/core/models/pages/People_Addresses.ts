@@ -1,10 +1,10 @@
-export interface IPeople_Addresses {
+export interface PeopleListDTO {
     personId: number,
     name: string,
-    personAddresses: IPersonAddress[]
+    personAddresses: PersonAddressesDTO[]
 }
 
-export interface IPersonAddress {
+export interface PersonAddressesDTO {
     personAddressId: number,
     title: string,
     address: string,

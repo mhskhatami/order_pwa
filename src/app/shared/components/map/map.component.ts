@@ -4,9 +4,9 @@ import * as L from "leaflet";
 
 import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
 import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
-import { IPeople_Addresses, IPersonAddress } from '../../../core/models/bazara/result-DTOs/IPeople_Addresses';
+import { PeopleListDTO, PersonAddressesDTO } from '../../../core/models/pages/People_Addresses';
 import { UtilityService } from '../../../core/services/common/utility.service';
-import { PersonDetailComponent } from './person-detail/person-detail.component';
+import { PersonDetailComponent } from '../person-detail/person-detail.component';
 import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
 
 @Component({
@@ -26,8 +26,8 @@ export class MapComponent implements OnInit {
   };
 
   data: any[] = [];
-  people: IPeople_Addresses[] = [];
-  person: IPeople_Addresses = {
+  people: PeopleListDTO[] = [];
+  person: PeopleListDTO = {
     personId: 0,
     name: '',
     personAddresses: [
@@ -103,7 +103,7 @@ export class MapComponent implements OnInit {
     this.setDataOnMap(this.people);
   }
 
-  setDataOnMap(people: IPeople_Addresses[]) {
+  setDataOnMap(people: PeopleListDTO[]) {
     people.forEach(el => {
       el.personAddresses.forEach(element => {
         let _marker = new L.Marker([element.latitude, element.longitude], this.iconOption).addTo(this.map);
@@ -121,7 +121,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  openBottomSheet(person: IPeople_Addresses) {
+  openBottomSheet(person: PeopleListDTO) {
     const config: MatBottomSheetConfig = {data: { person }
       // , panelClass: 'bottomsheet-map'
     }; 
