@@ -47,6 +47,7 @@ import { MissionDetailComponent } from './shared/components/mission/mission-deta
 import { MissionChangeStatusComponent } from './shared/components/mission/mission-change-status/mission-change-status.component';
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
 import { ReceiptDetailComponent } from './shared/components/receipt-detail/receipt-detail.component';
+import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-form.component';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { ReceiptDetailComponent } from './shared/components/receipt-detail/recei
     MissionDetailComponent,
     MissionChangeStatusComponent,
     ReceiptListComponent,
-    ReceiptDetailComponent
+    ReceiptDetailComponent,
+    ReceiptFormComponent
   ],
   exports: [
     FooterComponent

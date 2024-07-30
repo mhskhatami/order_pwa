@@ -20,6 +20,7 @@ import { PromotionListComponent } from './shared/components/promotion-list/promo
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
+import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-form.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'people-list', component: PeopleListComponent, canActivate: [authGuard] },
   { path: 'receipt-list', component: ReceiptListComponent, canActivate: [authGuard] },
+  { path: 'receipt-form', component: ReceiptFormComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
   { path: 'map', component: MapComponent, canActivate: [authGuard] },

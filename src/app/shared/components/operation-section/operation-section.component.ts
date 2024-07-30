@@ -15,8 +15,12 @@ export class OperationSectionComponent {
     this.router.navigate(['/invoice']);
   }
 
-  navigateToReceipt() {
+  navigateToReceiptList() {
     this.router.navigate(['/receipt-list']);
+  }
+
+  navigateToReceipt() {
+    this.router.navigate(['/receipt-form']);
   }
 
   navigateToPerson() {
