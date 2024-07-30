@@ -48,8 +48,6 @@ import { MissionChangeStatusComponent } from './shared/components/mission/missio
 import { PersonComponent } from './shared/components/person/person.component';
 import { PersonCardComponent } from './shared/components/person/person-card/person-card.component';
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
-import { ReceiptDetailComponent } from './shared/components/receipt-detail/receipt-detail.component';
-
 
 @NgModule({
   declarations: [
@@ -86,8 +84,7 @@ import { ReceiptDetailComponent } from './shared/components/receipt-detail/recei
     MissionChangeStatusComponent,
     PersonComponent,
     PersonCardComponent,
-    ReceiptListComponent,
-    ReceiptDetailComponent
+    ReceiptListComponent
   ],
   exports: [
     FooterComponent
