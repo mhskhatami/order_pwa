@@ -6,7 +6,7 @@ import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
 import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
 import { PeopleListDTO, PersonAddressesDTO } from '../../../core/models/pages/People_Addresses';
 import { UtilityService } from '../../../core/services/common/utility.service';
-import { PersonDetailComponent } from '../person-detail/person-detail.component';
+import { PersonDetailComponent } from '../person/person-detail/person-detail.component';
 import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
 
 @Component({

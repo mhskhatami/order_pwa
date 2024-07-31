@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { PeopleListDTO } from 'src/app/core/models/pages/People_Addresses';
-import { MapComponent } from '../map/map.component';
+import { MapComponent } from '../../map/map.component';
 import { ActivatedRoute } from '@angular/router';
 import { PersonService } from 'src/app/core/services/pages-services/person.service';
 
