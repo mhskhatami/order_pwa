@@ -1,0 +1,52 @@
+.receipt-detail {
+    padding: 20px;
+  }
+  
+  .receipt-summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .receipt-summary td {
+    padding: 5px 0;
+  }
+  
+  .receipt-summary td:first-child {
+    font-weight: bold;
+  }
+  
+  .receipt-summary td:last-child {
+    text-align: right;
+  }
+  
+  .total-row {
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  
+  .item-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .item-list th, .item-list td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .item-list th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  @media (max-width: 600px) {
+    .receipt-summary, .item-list {
+      font-size: 14px;
+    }
+  }
+  

@@ -1,0 +1,58 @@
+<!-- Receipt Detail Dialog -->
+<mat-dialog-content>
+    <h2 mat-dialog-title>جزئیات رسید</h2>
+    
+    <div class="receipt-detail">
+      <table class="receipt-summary">
+        <tr>
+          <td>مبلغ نقدی:</td>
+          <td>{{ receipt.CashAmount | rialCurrency }}</td>
+        </tr>
+        <tr class="total-row">
+          <td>جمع چک‌ها:</td>
+          <td>{{ getTotalChecks(receipt.ReceiptId) | rialCurrency }}</td>
+        </tr>
+        <tr class="total-row">
+          <td>جمع حواله‌ها:</td>
+          <td>{{ getTotalRemittances(receipt.ReceiptId) | rialCurrency }}</td>
+        </tr>
+        <tr class="total-row">
+          <td>جمع کل:</td>
+          <td>{{ getTotalAmount(receipt) | rialCurrency }}</td>
+        </tr>
+      </table>
+      
+      <h3>لیست چک‌ها</h3>
+      <table class="item-list">
+        <tr>
+          <th>مبلغ</th>
+          <th>تاریخ</th>
+          <th>شماره چک</th>
+        </tr>
+        <tr *ngFor="let cheque of getCheques(receipt.ReceiptId)">
+          <td>{{ cheque.Amount | rialCurrency }}</td>
+          <td>{{ getFormattedPersianDate(cheque.Date) | persianDate  }}</td>
+          <td>{{ cheque.Number }}</td>
+        </tr>
+      </table>
+      
+      <h3>لیست حواله‌ها</h3>
+      <table class="item-list">
+        <tr>
+          <th>مبلغ</th>
+          <th>تاریخ</th>
+          <th>شماره حواله</th>
+        </tr>
+        <tr *ngFor="let remittance of getRemittances(receipt.ReceiptId)">
+          <td>{{ remittance.Amount | rialCurrency }}</td>
+          <td>{{ getFormattedPersianDate(remittance.Date) | persianDate }}</td>
+          <td>{{ remittance.Number }}</td>
+        </tr>
+      </table>
+    </div>
+    
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>بستن</button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+  

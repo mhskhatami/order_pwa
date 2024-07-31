@@ -1,0 +1,137 @@
+<div class="receipt-form">
+  <form [formGroup]="receiptForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>فرم رسید</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-section">
+          <h3>اطلاعات اصلی</h3>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>انتخاب مشتری</mat-label>
+              <mat-select formControlName="customerId">
+                <mat-option *ngFor="let customer of customers" [value]="customer.PersonId">
+                  {{ customer.FirstName }} {{ customer.LastName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>مقدار نقدی</mat-label>
+              <input matInput formControlName="cashAmount" type="number">
+
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Cheques -->
+        <div class="form-section">
+          <h3>چک‌ها</h3>
+          <div formArrayName="cheques">
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let cheque of cheques.controls; let i=index" [formGroupName]="i">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    چک {{i + 1}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>تاریخ چک</mat-label>
+                    <input matInput formControlName="date" type="date" [value]="today">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>انتخاب بانک</mat-label>
+                    <mat-select formControlName="bankId">
+                      <mat-option *ngFor="let bank of chequeBanks" [value]="bank">
+                        {{ bank }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>شماره چک</mat-label>
+                    <input matInput formControlName="number">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>مبلغ</mat-label>
+                    <input matInput formControlName="amount" type="number">
+                    <span matPrefix>ریال &nbsp;</span>
+                  </mat-form-field>
+                </div>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>توضیحات</mat-label>
+                  <textarea matInput formControlName="description" rows="2"></textarea>
+                </mat-form-field>
+                <button mat-button color="warn" (click)="removeCheque(i)">حذف چک</button>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <button mat-raised-button color="primary" (click)="addCheque()">
+              <mat-icon>add</mat-icon> اضافه کردن چک
+            </button>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Remittances -->
+        <div class="form-section">
+          <h3>حواله‌ها</h3>
+          <div formArrayName="remittances">
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let remittance of remittances.controls; let i=index" [formGroupName]="i">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    حواله {{i + 1}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>تاریخ</mat-label>
+                    <input matInput formControlName="date" type="date" [value]="today">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>انتخاب بانک</mat-label>
+                    <mat-select formControlName="bankId">
+                      <mat-option *ngFor="let bank of banks" [value]="bank.BankId">
+                        {{ bank.Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>شماره پیگیری</mat-label>
+                    <input matInput formControlName="trackingNumber">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>مبلغ</mat-label>
+                    <input matInput formControlName="amount" type="number">
+                    <span matPrefix>ریال &nbsp;</span>
+                  </mat-form-field>
+                </div>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>توضیحات</mat-label>
+                  <textarea matInput formControlName="description" rows="2"></textarea>
+                </mat-form-field>
+                <button mat-button color="warn" (click)="removeRemittance(i)">حذف حواله</button>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <button mat-raised-button color="primary" (click)="addRemittance()">
+              <mat-icon>add</mat-icon> اضافه کردن حواله
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" type="submit">ثبت رسید</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
