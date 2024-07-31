@@ -1,0 +1,19 @@
+<mat-card class="card-container">
+    <mat-card-header class="card-header">
+        <mat-card-title>({{person.PersonCode}}) {{person.Prifix}} {{person.FirstName}}
+            {{person.LastName}}</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin: 10px 0;">
+        <p>
+            نام شرکت یا فروشگاه: {{person.Organization ? person.Organization : 'نامشخص'}}<br>
+            آدرس: {{person.Address}}<br>
+            موبایل: {{person.Mobile}}<br>
+            توضیحات: {{person.Description}}<br>
+        </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="selectPerson(person)">ثبت عملیات</button>
+        <button mat-raised-button color="primary" (click)="getRelatedPersonAddress(person)">جزئیات</button>
+    </mat-card-actions>
+</mat-card>

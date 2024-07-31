@@ -19,16 +19,18 @@ import { ReportsComponent } from './shared/components/reports/reports.component'
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
-import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
+import { PersonComponent } from './shared/components/person/person.component';
+import { PersonDetailComponent } from './shared/components/person-detail/person-detail.component';
 import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-form.component';
-
+import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'people-list', component: PeopleListComponent, canActivate: [authGuard] },
-  { path: 'receipt-list', component: ReceiptListComponent, canActivate: [authGuard] },
+  { path: 'people-list', component: PersonComponent, canActivate: [authGuard] },
+  { path: 'people-list/:personId', component: PersonDetailComponent, canActivate: [authGuard] },
   { path: 'receipt-form', component: ReceiptFormComponent, canActivate: [authGuard] },
+  { path: 'receipt-list', component: ReceiptListComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
   { path: 'map', component: MapComponent, canActivate: [authGuard] },

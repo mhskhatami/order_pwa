@@ -65,7 +65,7 @@ export class IndexedDbService {
     const index = objectStore.index(indexName);
     
     return new Promise((resolve, reject) => {
-      const request = index.getAll(searchData);
+      const request = index.get(searchData);
       request.onsuccess = function () {
         console.log(request.result);
         

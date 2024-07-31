@@ -1,0 +1,18 @@
+<div *ngIf="isLoading; else isLoading" [style.height.px]="manualHeight">
+    <div *ngIf="peopleList.length > 0; else emptyData">
+        <mat-grid-list [cols]="breakpoint" rowHeight="215">
+            <mat-grid-tile *ngFor="let person of peopleList">
+                <app-person-card [person]="person"></app-person-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+
+    <ng-template #emptyData style="display: flex; justify-content: center; align-items: center;">
+        اطلاعاتی جهت نمایش موجود نیست.
+    </ng-template>
+</div>
+
+<ng-template #isLoading>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+    <p>در حال بارگزاری لیست اشخاص ...</p>
+</ng-template>

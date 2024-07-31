@@ -45,6 +45,8 @@ import { PromotionDetailComponent } from './shared/components/promotion-detail/p
 import { SumByPipe } from './shared/pipe/sum-by.pipe';
 import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
 import { MissionChangeStatusComponent } from './shared/components/mission/mission-change-status/mission-change-status.component';
+import { PersonComponent } from './shared/components/person/person.component';
+import { PersonCardComponent } from './shared/components/person/person-card/person-card.component';
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
 import { ReceiptDetailComponent } from './shared/components/receipt-detail/receipt-detail.component';
 import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-form.component';
@@ -83,9 +85,11 @@ import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-f
     PromotionDetailComponent,
     MissionDetailComponent,
     MissionChangeStatusComponent,
+    PersonComponent,
+    PersonCardComponent,
     ReceiptListComponent,
-    ReceiptDetailComponent,
-    ReceiptFormComponent
+    ReceiptFormComponent,
+    ReceiptDetailComponent
   ],
   exports: [
     FooterComponent
