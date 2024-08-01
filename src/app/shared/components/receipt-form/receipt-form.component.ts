@@ -6,6 +6,7 @@ import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
 import { Receipt } from 'src/app/core/models/bazara/bazara-DTOs/receipt';
 import { Cheque } from 'src/app/core/models/bazara/bazara-DTOs/cheque';
 import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-receipt-form',
@@ -22,7 +23,8 @@ export class ReceiptFormComponent implements OnInit {
   banks: Bank[] = [];
   chequeBanks: string[] = ['بانک ملی', 'بانک ملت', 'بانک صادرات', 'بانک تجارت', 'بانک سپه'];
 
-  constructor(private fb: FormBuilder, private indexedDbService: IndexedDbService, private dialog: MatDialog) {
+  constructor(private fb: FormBuilder, private indexedDbService: IndexedDbService, private dialog: MatDialog,
+    private snackBar: MatSnackBar) {
     this.receiptForm = this.fb.group({
       customerId: [null, Validators.required],
       cashAmount: [0, [Validators.required, Validators.min(0)]],
@@ -200,8 +202,19 @@ export class ReceiptFormComponent implements OnInit {
           await this.indexedDbService.addOrEdit('Cheque', remittance, remittance_key);
         }
         console.log('Receipt and related cheques/remittances saved successfully');
+        this.resetForm();
+        this.snackBar.open('رسید با موفقیت ثبت شد', 'بستن', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
       } catch (error) {
         console.error('Error saving receipt and related cheques/remittances:', error);
+        this.snackBar.open('خطا در ثبت رسید', 'بستن', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
       }
       console.log(newReceipt, cheques, remittances);
     }
@@ -210,4 +223,20 @@ export class ReceiptFormComponent implements OnInit {
   private getClientId() {
     return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
   }
+
+  resetForm(): void {
+    this.receiptForm.reset({
+      customerId: null,
+      cashAmount: 0,
+      cheques: [],
+      remittances: []
+    });
+    while (this.cheques.length !== 0) {
+      this.cheques.removeAt(0);
+    }
+    while (this.remittances.length !== 0) {
+      this.remittances.removeAt(0);
+    }
+  }
+
 }

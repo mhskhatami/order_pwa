@@ -23,6 +23,10 @@ import { PersonComponent } from './shared/components/person/person.component';
 import { PersonDetailComponent } from './shared/components/person-detail/person-detail.component';
 import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-form.component';
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
+import { TransferAccountListComponent } from './shared/components/transfer-account-list/transfer-account-list.component';
+import { TransferState } from '@angular/platform-browser';
+import { TransferAccountFormComponent } from './shared/components/transfer-account-form/transfer-account-form.component';
+import { TransferAccountDetailComponent } from './shared/components/transfer-account-detail/transfer-account-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -30,7 +34,10 @@ const routes: Routes = [
   { path: 'people-list', component: PersonComponent, canActivate: [authGuard] },
   { path: 'people-list/:personId', component: PersonDetailComponent, canActivate: [authGuard] },
   { path: 'receipt-form', component: ReceiptFormComponent, canActivate: [authGuard] },
+  { path: 'transfer-account-form', component: TransferAccountFormComponent, canActivate: [authGuard] },
+  { path: 'transfer-account-detail', component: TransferAccountDetailComponent, canActivate: [authGuard] },
   { path: 'receipt-list', component: ReceiptListComponent, canActivate: [authGuard] },
+  { path: 'transfer-account-list', component: TransferAccountListComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
   { path: 'map', component: MapComponent, canActivate: [authGuard] },

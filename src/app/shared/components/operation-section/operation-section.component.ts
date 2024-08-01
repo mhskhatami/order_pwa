@@ -9,14 +9,23 @@ import { Router } from '@angular/router';
 export class OperationSectionComponent {
 
 
+
   constructor(private router: Router) { }
 
   navigateToInvoice() {
     this.router.navigate(['/invoice']);
   }
 
+  navigateToTransferAccount() {
+    this.router.navigate(['/transfer-account-form']);
+  }
+
   navigateToReceiptList() {
     this.router.navigate(['/receipt-list']);
+  }
+
+  navigateToTransferAccountList() {
+    this.router.navigate(['/transfer-account-list']);
   }
 
   navigateToReceipt() {

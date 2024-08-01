@@ -21,7 +21,7 @@
         </div>
     
         <div class="icons-container">
-            <button class="icons-style">
+            <button class="icons-style" (click)="navigateToTransferAccount()">
                 <img src="/assets/icons/payment.svg">
             </button>
             <span>پرداختی</span>
@@ -32,6 +32,14 @@
                 <img src="/assets/icons/income_list.svg" >
             </button>
             <span>لیست دریافتی</span>
+        </div>
+
+
+        <div class="icons-container">
+            <button class="icons-style" (click)="navigateToTransferAccountList()">
+                <img src="/assets/icons/income_list.svg" >
+            </button>
+            <span>لیست پرداختی</span>
         </div>
     
         <div class="icons-container">
