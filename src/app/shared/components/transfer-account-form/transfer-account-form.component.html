@@ -1,0 +1,61 @@
+<div class="transfer-account-form">
+    <form [formGroup]="transferAccountForm" (ngSubmit)="onSubmit()">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>فرم حواله</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-section">
+            <h3>اطلاعات حواله</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>نوع حواله</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let type of transferTypes" [value]="type.id">
+                    {{ type.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+  
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>انتخاب دریافت کننده</mat-label>
+                <mat-select formControlName="receiverId">
+                  <mat-option *ngFor="let bank of banks" [value]="bank.BankId">
+                    {{ bank.BankName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+  
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>مبلغ</mat-label>
+                <input matInput formControlName="price" type="number">
+                <span matPrefix>ریال &nbsp;</span>
+              </mat-form-field>
+            </div>
+  
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>تاریخ</mat-label>
+                <input matInput formControlName="date" type="date" [value]="today">
+              </mat-form-field>
+            </div>
+  
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>توضیحات</mat-label>
+                <textarea matInput formControlName="description" rows="3"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-raised-button color="primary" type="submit">ثبت حواله</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+  
