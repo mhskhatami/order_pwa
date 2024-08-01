@@ -20,7 +20,7 @@ import { PromotionListComponent } from './shared/components/promotion-list/promo
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 import { MissionDetailComponent } from './shared/components/mission/mission-detail/mission-detail.component';
 import { PersonComponent } from './shared/components/person/person.component';
-import { PersonDetailComponent } from './shared/components/person-detail/person-detail.component';
+import { PersonDetailComponent } from './shared/components/person/person-detail/person-detail.component';
 import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-form.component';
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
 import { TransferAccountListComponent } from './shared/components/transfer-account-list/transfer-account-list.component';
