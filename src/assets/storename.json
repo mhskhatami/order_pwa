@@ -18,19 +18,34 @@
         "storeName": "Product"
     },
     {
-        "storeName": "VisitorProduct"
+        "storeName": "VisitorProduct",
+        "indexes": [
+            {"indexName": "by-productDetailId" , "indexValue": "ProductDetailId"}
+        ]
     }, 
     {
-        "storeName": "ProductDetail"
+        "storeName": "ProductDetail",
+        "indexes": [
+            {"indexName": "by-productId" , "indexValue": "ProductId"}
+        ]
     },
     {
-        "storeName": "PhotoGallery"
+        "storeName": "PhotoGallery",
+        "indexes": [
+            {"indexName": "by-itemCode" , "indexValue": "ItemCode"}
+        ]
     },
     {
-        "storeName": "Picture"
+        "storeName": "Picture",
+        "indexes": [
+            {"indexName": "by-pictureId" , "indexValue": "PictureId"}
+        ]
     },
     {
-        "storeName": "ProductDetailStoreAsset"
+        "storeName": "ProductDetailStoreAsset",
+        "indexes": [
+            {"indexName": "by-productDetailId" , "indexValue": "ProductDetailId"}
+        ]
     },
     {
         "storeName": "Bank"
