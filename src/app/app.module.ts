@@ -50,6 +50,9 @@ import { PersonCardComponent } from './shared/components/person/person-card/pers
 import { ReceiptListComponent } from './shared/components/receipt-list/receipt-list.component';
 import { ReceiptDetailComponent } from './shared/components/receipt-detail/receipt-detail.component';
 import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-form.component';
+import { TransferAccountListComponent } from './shared/components/transfer-account-list/transfer-account-list.component';
+import { TransferAccountFormComponent } from './shared/components/transfer-account-form/transfer-account-form.component';
+import { TransferAccountDetailComponent } from './shared/components/transfer-account-detail/transfer-account-detail.component';
 
 
 @NgModule({
@@ -89,7 +92,10 @@ import { ReceiptFormComponent } from './shared/components/receipt-form/receipt-f
     PersonCardComponent,
     ReceiptListComponent,
     ReceiptFormComponent,
-    ReceiptDetailComponent
+    ReceiptDetailComponent,
+    TransferAccountListComponent,
+    TransferAccountFormComponent,
+    TransferAccountDetailComponent
   ],
   exports: [
     FooterComponent

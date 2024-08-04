@@ -1,0 +1,99 @@
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .loading-text {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  .main-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .search-bar {
+    margin-bottom: 20px;
+  }
+  
+  .transfer-account-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .transfer-account-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .transfer-account-card mat-card-header {
+    margin-bottom: 15px;
+  }
+  
+  .transfer-account-summary {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .transfer-account-summary td {
+    padding: 5px 0;
+  }
+  
+  .transfer-account-summary td:first-child {
+    font-weight: bold;
+  }
+  
+  .transfer-account-summary td:last-child {
+    text-align: right;
+  }
+  
+  .description {
+    margin-top: 10px;
+    font-style: italic;
+    color: #666;
+  }
+  
+  mat-card-actions {
+    margin-top: auto;
+    padding: 16px;
+  }
+  
+  @media (max-width: 600px) {
+    .transfer-account-list {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Additional styles for TransferAccount specific elements */
+  .visitor-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .transfer-type {
+    font-style: italic;
+    color: #555;
+  }
+  
+  .bank-name {
+    color: #0066cc;
+  }
+  
+  .amount {
+    font-weight: bold;
+    color: #009900;
+  }
+  
+  /* You can add more specific styles here as needed */

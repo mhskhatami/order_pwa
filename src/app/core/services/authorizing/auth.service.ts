@@ -21,20 +21,22 @@ export class AuthService {
   constructor(private router: Router,
     private utilityService: UtilityService,
     private bazaraService: BazaraService,
-    private GenericIndexedDbService: IndexedDbService,
+    private indexedDbService: IndexedDbService,
     private snackBar: MatSnackBar) { }
 
   loginToMobileOrdering(model: IBazaraLoginDTO): Observable<boolean> {    
     this.bazaraService.bazaraLogin(model).subscribe({
       next: (res: ILoginResult) => {
         if (res.Result) {          
-          this.GenericIndexedDbService.setVisitorId(res.Data!.VisitorId.toString());
+          this.indexedDbService.setVisitorId(res.Data!.VisitorId.toString());
           localStorage.setItem('UserData', JSON.stringify(res.Data));
           localStorage.setItem('UserToken', res.Data!.UserToken);
+
+          console.log(res.Data?.VisitorId);
+
+          const key: IDBValidKey = [+res.Data!.VisitorId, res.Data!.VisitorId];
           
-          let loginData: Login[] = [];
-          loginData.push(res.Data!)
-          this.GenericIndexedDbService.addOrEdit('Login', loginData, res.Data!.VisitorId);
+          this.indexedDbService.addOrEdit('Login', res.Data, key);
 
           this.utilityService.showHeaderFooter.next('dashboard');
 

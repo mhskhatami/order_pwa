@@ -47,6 +47,15 @@
   <div class="tick" [class.received]="dataStatus['extraDataReceived']">
     بارگذاری اطلاعات افزوده ({{dataCounts['extraDataReceived'] || 0}})
   </div>
+  <div class="tick" [class.received]="dataStatus['receiptReceived']">
+    بارگذاری دریافتی ها ({{dataCounts['receiptReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['chequeReceived']">
+    بارگذاری چک ها ({{dataCounts['chequeReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['transferAccountReceived']">
+    بارگذاری پرداختی ها ({{dataCounts['transferAccountReceived'] || 0}})
+  </div>
   <div class="tick" [class.received]="dataStatus['promotionReceived']">
     بارگذاری طرح های تشویقی  ({{dataCounts['promotionReceived'] || 0}})
   </div>
@@ -55,12 +64,6 @@
   </div>
   <div class="tick" [class.received]="dataStatus['promotionEntityReceived']">
     بارگذاری مشخصه های طرح های تشویقی ({{dataCounts['promotionEntityReceived'] || 0}})
-  </div>
-  <div class="tick" [class.received]="dataStatus['receiptReceived']">
-    بارگذاری دریافتی ها ({{dataCounts['receiptReceived'] || 0}})
-  </div>
-  <div class="tick" [class.received]="dataStatus['chequeReceived']">
-    بارگذاری چک ها ({{dataCounts['chequeReceived'] || 0}})
   </div>
   <div class="tick" [class.received]="dataStatus['ordersSent']">
     ارسال سفارشات ({{dataCounts['ordersSent'] || 0}})

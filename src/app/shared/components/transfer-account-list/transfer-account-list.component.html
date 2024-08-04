@@ -1,0 +1,58 @@
+<!-- Loading Spinner -->
+<div class="loading-overlay" *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <div class="loading-text">در حال بارگذاری حواله‌ها...</div>
+  </div>
+  
+  <!-- Main Container -->
+  <div class="main-container" *ngIf="!isLoading && transferAccounts.length">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="searchText" placeholder="جستجو در حواله‌ها" aria-label="Search">
+        <button mat-icon-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  
+    <!-- Transfer Account List -->
+    <div class="transfer-account-list">
+      <mat-card *ngFor="let account of filteredTransferAccounts" class="transfer-account-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{ getVisitorName(account.VisitorId) }}
+          </mat-card-title>
+          <mat-card-subtitle>
+            <div>تاریخ ثبت: {{ getFormattedPersianDate(account.Date) }}</div>
+            <div>کد پیگیری: {{ account.TransferAccountClientId }}</div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="transfer-account-summary">
+            <tr>
+              <td>نوع حواله:</td>
+              <td>{{ getTransferType(account.Type) }}</td>
+            </tr>
+            <tr>
+              <td>{{ account.Type === 3 ? 'بانک دریافت کننده:' : 'هزینه:' }}</td>
+              <td>{{ account.Type === 3 ? getBankName(account.ReceiverId) : 'هزینه' }}</td>
+            </tr>
+            <tr>
+              <td>مبلغ حواله:</td>
+              <td>{{ account.Price | rialCurrency }}</td>
+            </tr>
+          </table>
+          <div class="description">
+            توضیحات: {{ account.Description }}
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="openTransferAccountDetail(account)">
+            جزییات حواله
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>

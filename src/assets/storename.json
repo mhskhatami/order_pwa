@@ -95,4 +95,8 @@
     {
         "storeName": "Cheque"
     }
+    ,
+    {
+        "storeName": "TransferAccount"
+    }
 ]

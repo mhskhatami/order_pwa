@@ -21,6 +21,7 @@ import { PromotionDetail } from "../bazara-DTOs/promotion-detail";
 import { PromotionEntity } from "../bazara-DTOs/promotion-entity";
 import { Cheque } from "../bazara-DTOs/cheque";
 import { Receipt } from "../bazara-DTOs/receipt";
+import { TransferAccount } from "../bazara-DTOs/transfer-account";
 
 export interface IApiResult {
     Data: IObject,
@@ -54,5 +55,6 @@ export interface IBazaraData {
     PromotinDetails:PromotionDetail[],
     PromotionEntities:PromotionEntity[],
     Receipts:Receipt[],
-    Cheques:Cheque[]
+    Cheques:Cheque[],
+    TransferAccounts:TransferAccount[]
 }
