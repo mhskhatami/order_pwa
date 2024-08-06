@@ -1,0 +1,9 @@
+.category-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .category-container button {
+    margin-bottom: 10px;
+  }
+  

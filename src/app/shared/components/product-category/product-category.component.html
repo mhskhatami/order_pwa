@@ -1,0 +1,12 @@
+<div class="category-container" style="height: 250px;">
+  <div style="display: flex; justify-content: space-between; padding: 15px;">
+    <span style="font-weight: 600;">لیست گروه محصولات</span>
+    <!-- <button (click)="closeBottomSheet()"> -->
+      <mat-icon fontIcon="close"></mat-icon>      
+    <!-- </button> -->
+  </div>
+  <mat-divider></mat-divider>
+  <mat-chip-set aria-label="Fish selection" style="margin-top: 20px;">
+    <mat-chip-option [selectable]="true" *ngFor="let category of productCategories" (click)="chipSelected(category)">{{ category.Name }}</mat-chip-option>
+  </mat-chip-set>
+</div>
