@@ -18,7 +18,7 @@ import { DashboardComponent } from './shared/components/dashboard/dashboard.comp
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
 import { BankListComponent } from './shared/components/bank-list/bank-list.component';
 import { OrderListComponent } from './shared/components/order-list/order-list.component';
-import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
+import { ProductCategoryComponent } from './shared/components/product-category/product-category.component';
 import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
 import { ToolbarComponent } from './shared/components/toolbar/toolbar.component';
 import { LogUpdateService } from './core/services/pwa_services/log-update.service';
@@ -65,7 +65,7 @@ import { TransferAccountDetailComponent } from './shared/components/transfer-acc
     BankListComponent,
     ProductComponent,
     ProductCardComponent,
-    ProductCategoriesComponent,
+    ProductCategoryComponent,
     OrderComponent,
     OrderCardComponent,
     OrderListComponent,
