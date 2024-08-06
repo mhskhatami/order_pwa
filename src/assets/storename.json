@@ -15,7 +15,10 @@
         ]
     },
     {
-        "storeName": "Product"
+        "storeName": "Product",
+        "indexes": [
+            {"indexName": "by-productCategoryId" , "indexValue": "ProductCategoryId"}
+        ]
     },
     {
         "storeName": "VisitorProduct",
