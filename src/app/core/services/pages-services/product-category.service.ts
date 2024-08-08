@@ -16,7 +16,6 @@ export class ProductCategoryService {
 
   getProductCategoriesList() {
     this.indexeddbService.getAllData<ProductCategory>('ProductCategory').then(async (res) => {
-      console.log(res);
       this.productCategoryList.next(res);
     });
     return this.productCategoryList;

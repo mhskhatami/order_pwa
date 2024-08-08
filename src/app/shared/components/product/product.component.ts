@@ -28,10 +28,19 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getProductList();
+  }
+  
+  getProductList() {
     this.products = this.productService.getProductList();
   }
 
   openBottomSheet(): void {
-    this.bottomSheet.open(ProductCategoryComponent);
+    const bottomSheetRef = this.bottomSheet.open(ProductCategoryComponent);
+
+    bottomSheetRef.afterDismissed().subscribe((res) => {
+      console.log(res);
+      
+    });
   }
 }
