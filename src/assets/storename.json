@@ -84,4 +84,8 @@
     {
         "storeName": "TransferAccount"
     }
+    ,
+    {
+        "storeName": "Visitor"
+    }
 ]
