@@ -1,3 +1,4 @@
-<section class="product-container">
+<section class="product-container" [style.height.px]="manualHeight">
     <app-product-card style="margin: 2rem;" *ngFor="let product of products" [product]="product"></app-product-card>
+    <button mat-raised-button style="width: 100%; position: fixed; bottom: 64px; height: 64px;" (click)="openBottomSheet()">گروه کالاها</button>
 </section>

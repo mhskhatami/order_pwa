@@ -63,16 +63,14 @@ export class IndexedDbService {
     const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
     const objectStore = transaction.objectStore(storeName);
     const index = objectStore.index(indexName);
-    
+
     return new Promise((resolve, reject) => {
       const request = index.get(searchData);
       request.onsuccess = function () {
-        console.log(request.result);
-        
-        const cursor = request.result;        
-        // if (cursor) {
-          resolve(cursor);
-        // }
+        let cursor = request.result;
+        if (cursor != undefined && !cursor.isArray)
+         cursor = [cursor];
+        resolve(cursor);
       };
 
       request.onerror = (event: any) => {
@@ -86,7 +84,7 @@ export class IndexedDbService {
   //   const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
   //   const objectStore = transaction.objectStore(storeName);
   //   const index = objectStore.index(indexName);
-    
+
   //   return new Promise((resolve, reject) => {
   //     const request = index.count(searchData);
   //     request.onsuccess = function () {

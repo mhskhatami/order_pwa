@@ -1,0 +1,18 @@
+<div class="category-container" style="height: 250px;">
+  <div style="display: flex; justify-content: space-between; padding: 15px;">
+    <span style="font-weight: 600;">لیست گروه محصولات</span>
+    <button (click)="closeBottomSheet()" style="border: none; background-color: white;">
+      <mat-icon fontIcon="close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div>
+    <mat-chip-set>
+      <mat-chip-option *ngFor="let cat of productCategories" (selectionChange)="categorySelection(cat.ProductCategoryId, $event)">
+        {{ cat.Name }}
+      </mat-chip-option>
+    </mat-chip-set>
+  </div>
+</div>

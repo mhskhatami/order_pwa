@@ -4,3 +4,8 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.mat-mdc-raised-button {
+    color: white !important;
+    background-color: #369139 !important;
+}

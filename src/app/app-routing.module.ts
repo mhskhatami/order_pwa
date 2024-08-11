@@ -7,7 +7,7 @@ import { DashboardComponent } from './shared/components/dashboard/dashboard.comp
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
 import { BankListComponent } from './shared/components/bank-list/bank-list.component';
 import { OrderListComponent } from './shared/components/order-list/order-list.component';
-import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
+import { ProductCategoryComponent } from './shared/components/product-category/product-category.component';
 import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { authGuard } from './core/services/authorizing/auth.guard';
@@ -50,7 +50,7 @@ const routes: Routes = [
   { path: 'reports-orders', component: OrderComponent, canActivate: [authGuard] },
   { path: 'promotion-list', component: PromotionListComponent, canActivate: [authGuard] },
   { path: 'promotion-detail/:id', component: PromotionDetailComponent , canActivate: [authGuard] },
-  { path: 'product-categories', component: ProductCategoriesComponent, canActivate: [authGuard] },
+  { path: 'product-category', component: ProductCategoryComponent, canActivate: [authGuard] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
   { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
   { path: 'mission-detail', component: MissionDetailComponent, canActivate: [authGuard] },
