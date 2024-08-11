@@ -107,4 +107,12 @@ export class ProductService {
       });
     });
   }
+
+  async getProductBaseOfCategory(categoryId: number[]) {
+    return new Promise((resolve) => {
+      this.indexedService.getByIndex_multivalue('Product', 'by-productCategoryId', categoryId).then(res => {
+        resolve(res);
+      });
+    });
+  }
 }

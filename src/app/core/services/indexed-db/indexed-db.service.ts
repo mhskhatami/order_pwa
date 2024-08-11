@@ -6,8 +6,6 @@ import { IndexedDbManagementService } from './indexedb-management.service';
 })
 export class IndexedDbService {
 
-  personStoreName: any;
-
   constructor(private indexedDbManagementService: IndexedDbManagementService) { }
 
   getVisitorId(): number {
@@ -65,11 +63,14 @@ export class IndexedDbService {
     const index = objectStore.index(indexName);
 
     return new Promise((resolve, reject) => {
-      const request = index.get(searchData);
+      const request = index.getAll(searchData);
       request.onsuccess = function () {
         let cursor = request.result;
         if (cursor != undefined && !cursor.isArray)
-         cursor = [cursor];
+          cursor = [cursor];
+
+        console.log(cursor, 'tamam data ha bar asas index birun miad');
+
         resolve(cursor);
       };
 
@@ -79,24 +80,21 @@ export class IndexedDbService {
     });
   }
 
-  // async countByIndex<T>(storeName: string, indexName: string, searchData: string | number): Promise<number> {
-  //   this.indexedDbManagementService.waitForDb();
-  //   const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
-  //   const objectStore = transaction.objectStore(storeName);
-  //   const index = objectStore.index(indexName);
+  async getByIndex_multivalue<T>(storeName: string, indexName: string, multiData: number[]): Promise<T[]> {
+    let result: T[] = [];
+    console.log(multiData, 'che idhaei miad?');
 
-  //   return new Promise((resolve, reject) => {
-  //     const request = index.count(searchData);
-  //     request.onsuccess = function () {
-  //       const cursor = request.result;
-  //         resolve(cursor);
-  //     };
+    return new Promise(async (resolve, reject) => {
+      await multiData.forEach(async ele => {
+        console.log(ele, 'done done miad');
 
-  //     request.onerror = (event: any) => {
-  //       reject(new Error('Failed to get data: ' + (event.target as any).error.message));
-  //     };
-  //   });
-  // }
+        await this.getByIndex<T>(storeName, indexName, ele).then(async (res: T[]) => {
+          result.push(res[0]);
+        })
+        resolve(result);
+      });
+    });
+  }
 
   async addOrEdit<T>(storeName: string, data: T, key: IDBValidKey): Promise<T> {
     try {
