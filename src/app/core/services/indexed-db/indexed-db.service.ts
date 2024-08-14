@@ -66,10 +66,9 @@ export class IndexedDbService {
       const request = index.getAll(searchData);
       request.onsuccess = function () {
         let cursor = request.result;
-        if (cursor != undefined && !cursor.isArray)
+        
+        if (!Array.isArray(cursor))
           cursor = [cursor];
-
-        console.log(cursor, 'tamam data ha bar asas index birun miad');
 
         resolve(cursor);
       };
@@ -82,11 +81,11 @@ export class IndexedDbService {
 
   async getByIndex_multivalue<T>(storeName: string, indexName: string, multiData: number[]): Promise<T[]> {
     let result: T[] = [];
-    console.log(multiData, 'che idhaei miad?');
+    // console.log(multiData, 'che idhaei miad?');
 
     return new Promise(async (resolve, reject) => {
       await multiData.forEach(async ele => {
-        console.log(ele, 'done done miad');
+        // console.log(ele, 'done done miad');
 
         await this.getByIndex<T>(storeName, indexName, ele).then(async (res: T[]) => {
           result.push(res[0]);
