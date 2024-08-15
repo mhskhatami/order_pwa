@@ -18,12 +18,12 @@ export class ProductService {
 
   constructor(private indexedService: IndexedDbService) { }
 
-  getProductList() {
+  getProductList(products?: Product[]) {
     this.productList = [];
 
     this.indexedService.getAllData<Product>('Product').then(async (products) => {
       products.forEach(async (product) => {
-        let temp: ProductListDTO = { ProductId: 0, ProductDetailId: 0, Deleted: false, ProductName: '', Price: 0, Count1: 0, Count2: 0, Quantity: 0, PicUrl: '', VisitorDeleted: false, VisitorId: 0, Name: '', ProductCode: 0, UnitName: '', UnitName2: '' };
+        let temp: ProductListDTO = { ProductId: 0, ProductDetailId: 0, Deleted: false, ProductName: '', Price: 0, Count1: 0, Count2: 0, Quantity: 0, PicUrl: '', VisitorDeleted: false, VisitorId: 0, Name: '', ProductCode: 0, UnitName: '', UnitName2: '', ProductCategoryId: 0 };
         if (!product.Deleted) {
           const productDetail: ProductDetail = await this.getRelatedProductDetails(product.ProductId).then();
           const visitorProduct: VisitorProduct = await this.getRelatedVisitorProduct(productDetail.ProductDetailId);
@@ -32,6 +32,7 @@ export class ProductService {
 
           if (!visitorProduct.Deleted) {
             temp.ProductId = product.ProductId;
+            temp.ProductCategoryId = product.ProductCategoryId;
             temp.ProductDetailId = productDetail.ProductDetailId;
             temp.VisitorId = productDetail.VisitorId;
             temp.VisitorDeleted = visitorProduct.Deleted;
@@ -104,14 +105,6 @@ export class ProductService {
     return new Promise((resolve, reject) => {
       this.indexedService.getByIndex<ProductDetailStoreAsset>('ProductDetailStoreAsset', 'by-productDetailId', productDetailId).then(assetsStores => {
         resolve(assetsStores[0]);
-      });
-    });
-  }
-
-  async getProductBaseOfCategory(categoryId: number[]) {
-    return new Promise((resolve) => {
-      this.indexedService.getByIndex_multivalue('Product', 'by-productCategoryId', categoryId).then(res => {
-        resolve(res);
       });
     });
   }

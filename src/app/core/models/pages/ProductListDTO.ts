@@ -13,5 +13,6 @@ export interface ProductListDTO {
     UnitName2: string,
     Quantity: number,
     PicUrl: string,
-    VisitorDeleted: boolean
+    VisitorDeleted: boolean,
+    ProductCategoryId: number
 }

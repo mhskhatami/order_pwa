@@ -32,19 +32,16 @@ export class ProductComponent implements OnInit {
   }
 
   getProductList() {
-    this.products = this.productService.getProductList()
+    this.products = this.productService.getProductList();
   }
 
   openBottomSheet(): void {
+    this.products = this.productService.getProductList();
     const bottomSheetRef = this.bottomSheet.open(ProductCategoryComponent);
 
     bottomSheetRef.afterDismissed().subscribe((res) => {
-      // console.log(res);
-      this.productService.getProductBaseOfCategory(res).then(async res => {
-        console.log(res);
-  
-        // this.productService.getProductList(res!).then();
-      });
+      if (res.length != 0) 
+        this.products = this.products.filter(p => p.ProductCategoryId == res[0]);
     });
   }
 }
