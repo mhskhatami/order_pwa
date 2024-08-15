@@ -37,11 +37,16 @@ export class ProductComponent implements OnInit {
 
   openBottomSheet(): void {
     this.products = this.productService.getProductList();
+    let temp: ProductListDTO[] = [];
     const bottomSheetRef = this.bottomSheet.open(ProductCategoryComponent);
 
     bottomSheetRef.afterDismissed().subscribe((res) => {
-      if (res.length != 0) 
-        this.products = this.products.filter(p => p.ProductCategoryId == res[0]);
+      if (res.length != 0) {
+        for (let i = 0; i < res.length; i++) {
+          temp.push(...this.products.filter(p => p.ProductCategoryId == res[i]));
+        }
+        this.products = temp;
+      }
     });
   }
 }
