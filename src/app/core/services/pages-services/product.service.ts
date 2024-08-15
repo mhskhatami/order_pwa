@@ -43,10 +43,10 @@ export class ProductService {
             temp.Name = product.Name;
             temp.ProductCode = product.ProductCode;
 
-            if (photoGallery.ItemCode != 0) {
+            if (photoGallery != undefined && Object.keys(photoGallery).length != 0) {
               const picture: Picture = await this.getRelatedPicture(photoGallery.PictureId);
-
-              if (picture)
+         
+              if (picture != undefined && Object.keys(picture).length != 0)
                 temp.PicUrl = `https://mahakacc.mahaksoft.com${picture.Url}`;
             }
             else {

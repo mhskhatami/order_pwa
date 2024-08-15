@@ -30,17 +30,21 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.getProductList();
   }
-  
+
   getProductList() {
-    this.products = this.productService.getProductList();
+    this.products = this.productService.getProductList()
   }
 
   openBottomSheet(): void {
     const bottomSheetRef = this.bottomSheet.open(ProductCategoryComponent);
 
     bottomSheetRef.afterDismissed().subscribe((res) => {
-      console.log(res);
-      
+      // console.log(res);
+      this.productService.getProductBaseOfCategory(res).then(async res => {
+        console.log(res);
+  
+        // this.productService.getProductList(res!).then();
+      });
     });
   }
 }
