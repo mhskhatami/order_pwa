@@ -25,4 +25,5 @@ export interface ReceivedBazaraData {
     chequeReceived?: boolean,
     receiptReceived?: boolean,
     transferAccountReceived?: boolean,
+    visitorReceived?: boolean,
 }

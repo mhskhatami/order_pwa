@@ -8,7 +8,7 @@ import { UtilityService } from '../common/utility.service';
 export class IndexedDbManagementService {
 
   db: any;
-  private dbVersion = 27;
+  private dbVersion = 28;
   private dbName = 'MobileOrderingDb';
   StoreNameList: StoreNameModel[] = [];
 

@@ -35,4 +35,5 @@ export interface IGetBazaraData {
     fromReceiptVersion?: number,
     fromChequeVersion?: number,
     fromTransferAccountVersion?: number,
+    fromVisirorVersion?: number,
 }
